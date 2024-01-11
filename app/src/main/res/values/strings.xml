@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CleanTrack</string>
+    <string name="create_new_company">Create new</string>
 </resources>
