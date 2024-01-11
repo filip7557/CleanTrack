@@ -5,6 +5,9 @@
       <entry key="CompanyCardPreview">
         <State />
       </entry>
+      <entry key="CreateNewCompanyCardPreview">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
