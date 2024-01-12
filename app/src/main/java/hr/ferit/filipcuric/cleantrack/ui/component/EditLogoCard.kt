@@ -34,8 +34,7 @@ fun EditLogoCard(
 ) {
     Card(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp,
-            pressedElevation = 0.dp,
+            defaultElevation = 8.dp,
         ),
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
