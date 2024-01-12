@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import hr.ferit.filipcuric.cleantrack.R
 import hr.ferit.filipcuric.cleantrack.mock.getCompanies
 import hr.ferit.filipcuric.cleantrack.model.Company
@@ -38,19 +39,20 @@ fun HomeScreen(
     ) {
         Text(
             text = stringResource(id = R.string.my_companies),
+            fontSize = 18.sp,
             modifier = Modifier
-                .padding(8.dp)
+                .padding(start = 12.dp, top=12.dp, bottom=12.dp)
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(NUMBER_OF_COLUMNS),
-            contentPadding = PaddingValues(8.dp)
+            contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
             item {
                 CreateNewCompanyCard(
                     modifier = Modifier
                         .height(280.dp)
                         .width(160.dp)
-                        .padding(vertical = 10.dp, horizontal = 4.dp),
+                        .padding(vertical = 8.dp, horizontal = 8.dp),
                     onClick = { /*TODO*/ }
                 )
             }
@@ -69,7 +71,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .height(280.dp)
                         .width(160.dp)
-                        .padding(vertical = 10.dp, horizontal = 4.dp)
+                        .padding(vertical = 8.dp, horizontal = 8.dp)
                 )
             }
         }
