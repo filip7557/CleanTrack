@@ -66,12 +66,12 @@ fun HomeScreen(
                         name = it.name,
                         position = it.position,
                         imageUrl = it.imageUrl,
-                    )
-                    , onClick = { /*TODO*/ },
+                    ),
                     modifier = Modifier
                         .height(280.dp)
                         .width(160.dp)
-                        .padding(vertical = 8.dp, horizontal = 8.dp)
+                        .padding(vertical = 8.dp, horizontal = 8.dp),
+                    onClick = { /*TODO*/ },
                 )
             }
         }
