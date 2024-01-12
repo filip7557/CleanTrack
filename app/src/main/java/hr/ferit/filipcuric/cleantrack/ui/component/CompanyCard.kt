@@ -63,7 +63,7 @@ fun CompanyCard(
             ) {
                 Text(
                     text = companyCardViewState.name,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                 )
