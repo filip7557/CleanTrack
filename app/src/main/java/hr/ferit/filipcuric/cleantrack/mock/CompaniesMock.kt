@@ -20,5 +20,18 @@ fun getCompanies(): List<Company> = listOf(
         name = "Cleaning Company 3",
         position = "Worker",
         imageUrl = "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/cleaning-service-company-logo-design-template-db40091848b1283994ec71ae58270d9f_screen.jpg?ts=1669998818",
+    ),
+    Company(
+        id = "vbn890",
+        name = "Cleaning Company 4",
+        position = "Worker",
+        imageUrl = "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/cleaning-service-company-logo-design-template-db40091848b1283994ec71ae58270d9f_screen.jpg?ts=1669998818",
+    ),
+    Company(
+        id = "fgh123",
+        name = "Cleaning Company 5",
+        position = "Worker",
+        imageUrl = "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/cleaning-service-company-logo-design-template-db40091848b1283994ec71ae58270d9f_screen.jpg?ts=1669998818",
     )
+
 )
