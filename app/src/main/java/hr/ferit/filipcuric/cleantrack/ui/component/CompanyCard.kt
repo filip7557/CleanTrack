@@ -1,5 +1,6 @@
 package hr.ferit.filipcuric.cleantrack.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,6 +31,7 @@ data class CompanyCardViewState(
 @Composable
 fun CompanyCard(
     companyCardViewState: CompanyCardViewState,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -41,7 +43,8 @@ fun CompanyCard(
             containerColor = Color.White,
         ),
         shape = CardDefaults.elevatedShape,
-        modifier = modifier,
+        modifier = modifier
+            .clickable(onClick = onClick),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -85,6 +88,7 @@ fun CompanyCardPreview() {
             name = "ZOP - KOT",
             position = "Manager",
         ),
+        onClick = {},
         modifier = Modifier
             .height(250.dp)
             .width(160.dp)
