@@ -1,6 +1,7 @@
 package hr.ferit.filipcuric.cleantrack.ui.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import hr.ferit.filipcuric.cleantrack.R
 
 @Composable
 fun UploadLogoCard(
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -35,7 +37,8 @@ fun UploadLogoCard(
         ),
         shape = CardDefaults.elevatedShape,
         border = CardDefaults.outlinedCardBorder(true),
-        modifier = modifier,
+        modifier = modifier
+            .clickable(onClick = onClick),
     ) {
         Column(
             modifier = Modifier
@@ -61,6 +64,7 @@ fun UploadLogoCard(
 @Composable
 fun UploadLogoCardPreview() {
     UploadLogoCard(
+        onClick = {},
         modifier = Modifier
             .height(300.dp)
             .width(300.dp)
