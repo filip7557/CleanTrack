@@ -59,7 +59,7 @@ fun HomeScreen(
 
             items(
                 homeScreenViewState.companies,
-                key = {company -> company.id}
+                key = { company -> company.id }
             ) {
                 CompanyCard(
                     companyCardViewState = CompanyCardViewState(
