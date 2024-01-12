@@ -1,6 +1,7 @@
 package hr.ferit.filipcuric.cleantrack.ui.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import hr.ferit.filipcuric.cleantrack.R
 
 @Composable
 fun CreateNewCompanyCard(
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -34,7 +36,8 @@ fun CreateNewCompanyCard(
             containerColor = Color.White,
         ),
         shape = CardDefaults.elevatedShape,
-        modifier = modifier,
+        modifier = modifier
+            .clickable(onClick = onClick),
     ) {
         Column(
             modifier = Modifier
@@ -60,6 +63,7 @@ fun CreateNewCompanyCard(
 @Composable
 fun CreateNewCompanyCardPreview() {
     CreateNewCompanyCard(
+        onClick = {},
         modifier = Modifier
             .height(250.dp)
             .width(160.dp)
