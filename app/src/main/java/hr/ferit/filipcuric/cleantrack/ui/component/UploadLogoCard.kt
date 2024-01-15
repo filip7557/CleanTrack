@@ -31,9 +31,6 @@ fun UploadLogoCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp,
         ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White,
-        ),
         shape = CardDefaults.elevatedShape,
         border = CardDefaults.outlinedCardBorder(true),
         modifier = modifier
