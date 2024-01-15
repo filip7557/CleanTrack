@@ -53,6 +53,7 @@ fun LoginScreen(
             label = {
                     Text(text = "Password")
             },
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Green,
                 focusedLabelColor = Green,
