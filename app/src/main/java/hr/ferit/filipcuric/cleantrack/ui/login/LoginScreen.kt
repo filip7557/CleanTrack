@@ -44,7 +44,7 @@ fun LoginScreen(
             ),
             shape=RoundedCornerShape(8.dp),
             modifier = Modifier
-                .padding(bottom = 8.dp)
+                .padding(bottom = 10.dp)
                 .fillMaxWidth(),
             onValueChange = { /*TODO*/ }
         )
@@ -60,7 +60,7 @@ fun LoginScreen(
             ),
             shape=RoundedCornerShape(8.dp),
             modifier = Modifier
-                .padding(bottom = 8.dp)
+                .padding(bottom = 10.dp)
                 .fillMaxWidth(),
             onValueChange = { /*TODO*/ }
         )
