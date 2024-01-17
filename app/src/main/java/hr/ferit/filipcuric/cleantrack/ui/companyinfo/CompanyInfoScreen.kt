@@ -1,6 +1,7 @@
 package hr.ferit.filipcuric.cleantrack.ui.companyinfo
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,9 +30,11 @@ import hr.ferit.filipcuric.cleantrack.model.Company
 import hr.ferit.filipcuric.cleantrack.model.Location
 import hr.ferit.filipcuric.cleantrack.ui.component.LocationCard
 import hr.ferit.filipcuric.cleantrack.ui.component.LocationCardViewState
+import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 
 data class CompanyInfoScreenViewState(
     val company: Company,
+    val isManager: Boolean,
     val locations: List<Location>,
 )
 
@@ -37,6 +42,7 @@ data class CompanyInfoScreenViewState(
 fun CompanyInfoScreen(
     companyInfoScreenViewState: CompanyInfoScreenViewState,
     onLocationClick: () -> Unit,
+    onAddLocationClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -90,6 +96,22 @@ fun CompanyInfoScreen(
                 )
             }
         }
+        if(companyInfoScreenViewState.isManager) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Button(
+                    onClick = onAddLocationClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Green,
+                    )
+                ) {
+                    Text(text = "Add a location")
+                }
+            }
+        }
     }
 }
 
@@ -99,8 +121,10 @@ fun CompanyInfoScreenPreview() {
     CompanyInfoScreen(
         companyInfoScreenViewState = CompanyInfoScreenViewState(
             company = getCompanies().first(),
+            isManager = true,
             locations = getLocations().filter { it.companyId == getCompanies().first().id }
         ),
-        onLocationClick = { /*TODO*/ }
+        onLocationClick = { /*TODO*/ },
+        onAddLocationClick = { /*TODO*/ }
     )
 }
