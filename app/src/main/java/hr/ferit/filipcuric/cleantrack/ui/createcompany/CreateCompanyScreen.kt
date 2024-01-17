@@ -54,22 +54,6 @@ fun CreateCompanyScreen(
                 .fillMaxWidth(),
             onValueChange = { /*TODO*/ }
         )
-        TextField(
-            value = "",
-            label = {
-                Text(text = "Address")
-            },
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Green,
-                focusedLabelColor = Green,
-            ),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .padding(bottom = 10.dp)
-                .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
-        )
         UploadLogoCard(
             onClick = onUploadClick,
             modifier = Modifier
