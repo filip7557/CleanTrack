@@ -1,5 +1,6 @@
 package hr.ferit.filipcuric.cleantrack.ui.register
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,16 +13,34 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
+import hr.ferit.filipcuric.cleantrack.data.UserRepository
+
+@Composable
+fun RegisterRoute(
+    viewModel: RegisterViewModel,
+    onRegisterClick: () -> Unit,
+) {
+
+    RegisterScreen(
+        viewModel = viewModel,
+        onRegisterClick = {
+            onRegisterClick()
+        }
+    )
+}
 
 @Composable
 fun RegisterScreen(
-    onRegisterClick: () -> Unit,
+    viewModel: RegisterViewModel,
+    onRegisterClick: (Unit) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -31,7 +50,7 @@ fun RegisterScreen(
             .fillMaxSize()
     ) {
         TextField(
-            value = "",
+            value = viewModel.username,
             label = {
                 Text(text = "Username")
             },
@@ -44,10 +63,19 @@ fun RegisterScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = { value ->
+                viewModel.onUsernameValueChange(value)
+            }
         )
+        val userNameHasError by viewModel.userNameHasError.collectAsState()
+        if (userNameHasError) {
+            Text(
+                text = "Username not available. Please choose a different one.",
+                color = Color.Red
+            )
+        }
         TextField(
-            value = "",
+            value = viewModel.email,
             label = {
                 Text(text = "Email")
             },
@@ -60,10 +88,19 @@ fun RegisterScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = { value ->
+                viewModel.onEmailValueChange(value)
+            }
         )
+        val emailHasError by viewModel.emailHasError.collectAsState()
+        if (emailHasError) {
+            Text(
+                text = "There is already an account with this email. Log in instead.",
+                color = Color.Red
+            )
+        }
         TextField(
-            value = "",
+            value = viewModel.firstname,
             label = {
                 Text(text = "Firstname")
             },
@@ -76,10 +113,12 @@ fun RegisterScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = { value ->
+                viewModel.onFirstnameValueChange(value)
+            }
         )
         TextField(
-            value = "",
+            value = viewModel.lastname,
             label = {
                 Text(text = "Lastname")
             },
@@ -92,10 +131,12 @@ fun RegisterScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = { value ->
+                viewModel.onLastnameValueChange(value)
+            }
         )
         TextField(
-            value = "",
+            value = viewModel.password,
             label = {
                 Text(text = "Password")
             },
@@ -108,10 +149,15 @@ fun RegisterScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = { value ->
+                viewModel.onPasswordValueChange(value)
+            }
         )
         Button(
-            onClick = onRegisterClick,
+            enabled = !userNameHasError && !emailHasError && viewModel.areTextFieldFilled(),
+            onClick = {
+                onRegisterClick(viewModel.registerUser())
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0, 90, 4),
                 contentColor = Color.White
@@ -127,7 +173,5 @@ fun RegisterScreen(
 @Preview
 @Composable
 fun RegisterScreenPreview() {
-    RegisterScreen {
-
-    }
+    RegisterRoute(viewModel = RegisterViewModel(UserRepository()), onRegisterClick = {})
 }

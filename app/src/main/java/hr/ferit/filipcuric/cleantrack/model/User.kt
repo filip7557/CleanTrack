@@ -1,7 +1,7 @@
 package hr.ferit.filipcuric.cleantrack.model
 
 data class User(
-    val id: String?,
+    var id: String? = null,
     val username: String,
     val email: String,
     val password: String,
