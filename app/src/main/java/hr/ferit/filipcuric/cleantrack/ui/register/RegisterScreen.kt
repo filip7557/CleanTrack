@@ -135,8 +135,11 @@ fun RegisterScreen(
                 viewModel.onLastnameValueChange(value)
             }
         )
+        var password = ""
+        for (char in viewModel.password)
+            password += '*'
         TextField(
-            value = viewModel.password,
+            value = password,
             label = {
                 Text(text = "Password")
             },
