@@ -22,7 +22,8 @@ import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 
 @Composable
 fun LoginScreen(
-    onLoginClick: () -> Unit,
+    viewModel: LoginViewModel,
+    onLoginClick: (String) -> Unit,
     onRegisterClick: () -> Unit,
 ) {
     Column(
@@ -33,7 +34,7 @@ fun LoginScreen(
             .fillMaxSize()
     ) {
         TextField(
-            value = "",
+            value = viewModel.username,
             label = {
                     Text(text = "Username")
             },
@@ -46,10 +47,13 @@ fun LoginScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = { viewModel.onUsernameValueChange(it) }
         )
+        var password = ""
+        for (char in viewModel.password)
+            password += '*'
         TextField(
-            value = "",
+            value = password,
             label = {
                     Text(text = "Password")
             },
@@ -62,10 +66,10 @@ fun LoginScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = { viewModel.onPasswordValueChange(it) }
         )
         Button(
-            onClick = onLoginClick,
+            onClick = { onLoginClick(viewModel.loginUser()) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0, 90, 4),
                 contentColor = Color.White
@@ -92,13 +96,5 @@ fun LoginScreen(
         ) {
             Text("Register")
         }
-    }
-}
-
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(onLoginClick = { /*TODO*/ }) {
-
     }
 }

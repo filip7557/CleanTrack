@@ -1,8 +1,9 @@
-package hr.ferit.filipcuric.cleantrack.data
+package hr.ferit.filipcuric.cleantrack.data.di.repository
 
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import hr.ferit.filipcuric.cleantrack.data.database.LoggedInAccountDao
 import hr.ferit.filipcuric.cleantrack.model.User
 import kotlinx.coroutines.tasks.await
 import java.security.SecureRandom
@@ -16,16 +17,18 @@ private const val ITERATIONS = 120_000
 private const val KEY_LENGTH = 256
 private const val SECRET = "[B@7ede587"
 
-class UserRepository {
+class UserRepositoryImpl(
+    loggedInAccountDao: LoggedInAccountDao,
+) : UserRepository {
     private val db = Firebase.firestore
 
-    suspend fun createUser(
+    override suspend fun createUser(
         user: User,
     ) {
         db.collection("users").add(user).await()
     }
 
-    suspend fun fetchUser(
+    override suspend fun fetchUser(
         username: String,
     ) : User {
         var user = User(null, "", "", "", "", "")
@@ -42,7 +45,7 @@ class UserRepository {
         return user
     }
 
-    suspend fun isUsernameAvailable(
+    override suspend fun isUsernameAvailable(
         username: String
     ) : Boolean {
         var isUsernameAvailable = true
@@ -59,7 +62,7 @@ class UserRepository {
         return isUsernameAvailable
     }
 
-    suspend fun isEmailAvailable(
+    override suspend fun isEmailAvailable(
         email: String
     ) : Boolean {
         var isEmailAvailable = true
@@ -76,14 +79,14 @@ class UserRepository {
         return isEmailAvailable
     }
 
-    fun generateRandomSalt(): String {
+    override fun generateRandomSalt(): String {
         val random = SecureRandom()
         val salt = ByteArray(16)
         random.nextBytes(salt)
         return salt.toString()
     }
 
-    fun generateHash(password: String, salt: String): String {
+    override fun generateHash(password: String, salt: String): String {
         val combinedSalt = "$salt$SECRET".toByteArray()
         val factory: SecretKeyFactory = SecretKeyFactory.getInstance(ALGORITHM)
         val spec: KeySpec = PBEKeySpec(password.toCharArray(), combinedSalt, ITERATIONS, KEY_LENGTH)
