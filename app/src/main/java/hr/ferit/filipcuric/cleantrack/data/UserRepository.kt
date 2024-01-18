@@ -17,7 +17,7 @@ import javax.crypto.spec.PBEKeySpec
 private const val ALGORITHM = "PBKDF2WithHmacSHA512"
 private const val ITERATIONS = 120_000
 private const val KEY_LENGTH = 256
-private const val SECRET = "SomeRandomSecret"
+private const val SECRET = "[B@7ede587"
 
 class UserRepository {
     private val db = Firebase.firestore
