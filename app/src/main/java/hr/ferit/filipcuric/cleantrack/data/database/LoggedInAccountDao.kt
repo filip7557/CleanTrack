@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LoggedInAccountDao {
      @Query("SELECT * FROM loggedInAccount")
-     fun account(): Flow<DbLoggedInAccount>
+     fun account(): DbLoggedInAccount
 
      @Insert(onConflict = OnConflictStrategy.REPLACE)
      suspend fun insertAccount(account: DbLoggedInAccount)

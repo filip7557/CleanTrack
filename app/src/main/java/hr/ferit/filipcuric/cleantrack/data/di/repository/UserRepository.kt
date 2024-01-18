@@ -14,4 +14,8 @@ interface UserRepository {
     fun generateRandomSalt(): String
 
     fun generateHash(password: String, salt: String) : String
+
+    suspend fun loginUser(user: User)
+
+    suspend fun  fetchLoggedInUser() : String
 }

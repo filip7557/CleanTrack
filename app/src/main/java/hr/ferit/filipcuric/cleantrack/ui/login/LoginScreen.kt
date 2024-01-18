@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,11 +50,8 @@ fun LoginScreen(
                 .fillMaxWidth(),
             onValueChange = { viewModel.onUsernameValueChange(it) }
         )
-        var password = ""
-        for (char in viewModel.password)
-            password += '*'
         TextField(
-            value = password,
+            value = viewModel.password,
             label = {
                     Text(text = "Password")
             },
@@ -66,7 +64,8 @@ fun LoginScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { viewModel.onPasswordValueChange(it) }
+            onValueChange = { viewModel.onPasswordValueChange(it) },
+            visualTransformation = PasswordVisualTransformation()
         )
         Button(
             onClick = { onLoginClick(viewModel.loginUser()) },

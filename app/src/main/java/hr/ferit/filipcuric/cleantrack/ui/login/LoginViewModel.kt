@@ -1,5 +1,6 @@
 package hr.ferit.filipcuric.cleantrack.ui.login
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,6 +11,7 @@ import hr.ferit.filipcuric.cleantrack.navigation.HOME_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.LOGIN_ROUTE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LoginViewModel(
     private val userRepository: UserRepository,
@@ -30,9 +32,11 @@ class LoginViewModel(
 
     fun loginUser() : String {
         var route = LOGIN_ROUTE
-        viewModelScope.launch(Dispatchers.IO) {
+        runBlocking(Dispatchers.IO) {
             val user = userRepository.fetchUser(username)
-            if(user.password == userRepository.generateHash(password, userRepository.generateRandomSalt())) {
+            Log.d("USER", "${user.password} ?= $password")
+            if(user.password == password) {
+                userRepository.loginUser(user)
                 route = HOME_ROUTE
             }
         }

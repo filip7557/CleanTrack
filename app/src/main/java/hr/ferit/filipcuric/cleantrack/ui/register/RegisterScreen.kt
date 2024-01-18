@@ -18,6 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 
@@ -133,11 +135,8 @@ fun RegisterScreen(
                 viewModel.onLastnameValueChange(value)
             }
         )
-        var password = ""
-        for (char in viewModel.password)
-            password += '*'
         TextField(
-            value = password,
+            value = viewModel.password,
             label = {
                 Text(text = "Password")
             },
@@ -152,7 +151,8 @@ fun RegisterScreen(
                 .fillMaxWidth(),
             onValueChange = { value ->
                 viewModel.onPasswordValueChange(value)
-            }
+            },
+            visualTransformation = PasswordVisualTransformation()
         )
         Button(
             enabled = !userNameHasError && !emailHasError && viewModel.areTextFieldFilled(),
