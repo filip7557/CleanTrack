@@ -78,7 +78,7 @@ class RegisterViewModel(
                 User(
                     username = username,
                     email = email,
-                    password = password,
+                    password = userRepository.generateHash(password, userRepository.generateRandomSalt()),
                     firstname = firstname,
                     lastname = lastname,
                 )
