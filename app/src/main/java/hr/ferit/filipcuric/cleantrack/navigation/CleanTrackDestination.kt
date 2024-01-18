@@ -36,6 +36,10 @@ sealed class NavigationItem(
     data object HomeDestination : NavigationItem(
         route = HOME_ROUTE
     )
+
+    data object CreateCompanyDestination : NavigationItem(
+        route = CREATE_COMPANY_ROUTE
+    )
 }
 
 data object CompanyInfoDestination : CleanTrackDestination(COMPANY_INFO_ROUTE_WITH_PARAMS) {
