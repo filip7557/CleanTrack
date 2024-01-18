@@ -1,9 +1,6 @@
 package hr.ferit.filipcuric.cleantrack.data
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hr.ferit.filipcuric.cleantrack.model.User
@@ -31,14 +28,13 @@ class UserRepository {
     suspend fun fetchUser(
         username: String,
     ) : User {
-        var user: User = User(null, "", "", "", "", "")
+        var user = User(null, "", "", "", "", "")
         db.collection("users")
             .whereEqualTo("username", username)
             .get()
             .addOnSuccessListener {  documents ->
                 user = documents.first().toObject(User::class.java)
-                if(user != null)
-                    user.id = documents.first().id
+                user.id = documents.first().id
             }
             .addOnFailureListener { exception ->
                 Log.w("DB", "Error getting documents: $exception")
@@ -49,7 +45,7 @@ class UserRepository {
     suspend fun isUsernameAvailable(
         username: String
     ) : Boolean {
-        var isUsernameAvailable: Boolean = true
+        var isUsernameAvailable = true
         db.collection("users")
             .whereEqualTo("username", username)
             .get()
