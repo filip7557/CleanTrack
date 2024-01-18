@@ -8,11 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import hr.ferit.filipcuric.cleantrack.data.UserRepository
 import hr.ferit.filipcuric.cleantrack.model.User
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.runBlocking
 
 class RegisterViewModel(
     private val userRepository: UserRepository,
@@ -71,15 +73,17 @@ class RegisterViewModel(
     }
 
     fun registerUser() {
-        userRepository.createUser(
-            User(
-                username = username,
-                email = email,
-                password = password,
-                firstname = firstname,
-                lastname = lastname,
+        runBlocking(Dispatchers.IO) {
+            userRepository.createUser(
+                User(
+                    username = username,
+                    email = email,
+                    password = password,
+                    firstname = firstname,
+                    lastname = lastname,
+                )
             )
-        )
+        }
     }
 
     fun areTextFieldFilled() : Boolean {

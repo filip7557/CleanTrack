@@ -12,13 +12,13 @@ import kotlinx.coroutines.tasks.await
 class UserRepository {
     private val db = Firebase.firestore
 
-    fun createUser(
+    suspend fun createUser(
         user: User,
     ) {
-        db.collection("users").add(user)
+        db.collection("users").add(user).await()
     }
 
-    fun fetchUser(
+    suspend fun fetchUser(
         username: String,
     ) : User {
         var user: User = User(null, "", "", "", "", "")
@@ -32,7 +32,7 @@ class UserRepository {
             }
             .addOnFailureListener { exception ->
                 Log.w("DB", "Error getting documents: $exception")
-            }
+            }.await()
         return user
     }
 
