@@ -7,8 +7,6 @@ interface UserRepository {
     suspend fun fetchUser(username: String) : User
     suspend fun isUsernameAvailable(username: String) : Boolean
     suspend fun isEmailAvailable(email: String) : Boolean
-    fun generateRandomSalt(): String
-    fun generateHash(password: String, salt: String) : String
     suspend fun  fetchLoggedInUser() : String
     suspend fun restoreLoggedInUser(): User?
     suspend fun loginUser(username: String, password: String)

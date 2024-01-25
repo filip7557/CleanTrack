@@ -2,23 +2,12 @@ package hr.ferit.filipcuric.cleantrack.data.repository
 
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import hr.ferit.filipcuric.cleantrack.data.database.DbLoggedInAccount
 import hr.ferit.filipcuric.cleantrack.data.database.LoggedInAccountDao
 import hr.ferit.filipcuric.cleantrack.model.User
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
-import java.security.SecureRandom
-import java.security.spec.KeySpec
-import javax.crypto.SecretKey
-import javax.crypto.SecretKeyFactory
-import javax.crypto.spec.PBEKeySpec
-
-private const val ALGORITHM = "PBKDF2WithHmacSHA512"
-private const val ITERATIONS = 120_000
-private const val KEY_LENGTH = 256
-private const val SECRET = "[B@7ede587"
 
 class UserRepositoryImpl(
     private val loggedInAccountDao: LoggedInAccountDao,
@@ -29,7 +18,7 @@ class UserRepositoryImpl(
         user: User,
     ) {
         db.collection("users").add(user).await()
-        var document = db.collection("users").whereEqualTo("username", user.username).get().await().documents.first()
+        val document = db.collection("users").whereEqualTo("username", user.username).get().await().documents.first()
         saveLoggedInUser(document.id)
     }
 
@@ -98,22 +87,6 @@ class UserRepositoryImpl(
             }
             .await()
         return isEmailAvailable
-    }
-
-    override fun generateRandomSalt(): String {
-        val random = SecureRandom()
-        val salt = ByteArray(16)
-        random.nextBytes(salt)
-        return salt.toString()
-    }
-
-    override fun generateHash(password: String, salt: String): String {
-        val combinedSalt = "$SECRET".toByteArray()
-        val factory: SecretKeyFactory = SecretKeyFactory.getInstance(ALGORITHM)
-        val spec: KeySpec = PBEKeySpec(password.toCharArray(), combinedSalt, ITERATIONS, KEY_LENGTH)
-        val key: SecretKey = factory.generateSecret(spec)
-        val hash: ByteArray = key.encoded
-        return hash.toString()
     }
 
     override suspend fun loginUser(username: String, password: String) {
