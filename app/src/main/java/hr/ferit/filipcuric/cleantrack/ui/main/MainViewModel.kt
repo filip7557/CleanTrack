@@ -20,4 +20,10 @@ class MainViewModel(
             isLoggedIn = userRepository.fetchLoggedInUser() != ""
         }
     }
+
+    fun signUserOut() {
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.signOutUser()
+        }
+    }
 }

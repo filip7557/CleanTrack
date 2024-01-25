@@ -42,6 +42,10 @@ class UserRepositoryImpl(
         )
     }
 
+    override suspend fun signOutUser() {
+        loggedInAccountDao.delete()
+    }
+
     override suspend fun fetchUser(
         username: String,
     ) : User {

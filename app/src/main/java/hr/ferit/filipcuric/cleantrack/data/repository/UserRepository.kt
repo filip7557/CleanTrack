@@ -13,4 +13,5 @@ interface UserRepository {
     suspend fun restoreLoggedInUser(): User?
     suspend fun loginUser(username: String, password: String)
     suspend fun saveLoggedInUser(userId: String)
+    suspend fun signOutUser()
 }
