@@ -19,13 +19,15 @@ import androidx.core.view.WindowCompat
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0, 90, 4),
     secondary = Color.Black,
-    tertiary = Color.White
+    tertiary = Color.White,
+    background = Color(0, 39, 2, 255),
+    surface = Color(0, 39, 2, 255)
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Color(0, 90, 4),
-    secondary = Color.Black,
-    tertiary = Color.White
+    secondary = Color.White,
+    tertiary = Color.Black,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -40,9 +42,9 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun CleanTrackTheme(
-    darkTheme: Boolean = /*isSystemInDarkTheme()*/ false,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -51,7 +53,7 @@ fun CleanTrackTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> LightColorScheme //TODO Adapt for dark theme too
+        darkTheme -> DarkColorScheme //TODO Adapt for dark theme too
         else -> LightColorScheme
     }
     val view = LocalView.current

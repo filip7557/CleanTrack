@@ -1,5 +1,6 @@
 package hr.ferit.filipcuric.cleantrack.ui.main
 
+import android.content.res.Resources
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -8,11 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -42,6 +45,7 @@ import hr.ferit.filipcuric.cleantrack.ui.login.LoginScreen
 import hr.ferit.filipcuric.cleantrack.ui.login.LoginViewModel
 import hr.ferit.filipcuric.cleantrack.ui.register.RegisterRoute
 import hr.ferit.filipcuric.cleantrack.ui.register.RegisterViewModel
+import hr.ferit.filipcuric.cleantrack.ui.theme.CleanTrackTheme
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.ParametersHolder
@@ -139,7 +143,8 @@ private fun TopBar(
                 Text(
                     text = stringResource(id = R.string.app_name),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 22.sp
+                    fontSize = 22.sp,
+                    color = MaterialTheme.colorScheme.secondary
                 )
                 if(backNavigationIcon != null)
                     backNavigationIcon()
@@ -170,7 +175,8 @@ private fun BackIcon(
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
-                .clickable(onClick = onBackClick)
+                .clickable(onClick = onBackClick),
+            tint = MaterialTheme.colorScheme.secondary
         )
     }
 }
@@ -190,7 +196,8 @@ private fun SignOutIcon(
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
-                .clickable(onClick = onBackClick)
+                .clickable(onClick = onBackClick),
+            tint = MaterialTheme.colorScheme.secondary
         )
     }
 }

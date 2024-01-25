@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -86,6 +87,7 @@ fun LoginScreen(
         Text(
             text = "Don't have an account?",
             fontSize = 22.sp,
+            color = MaterialTheme.colorScheme.tertiary,
             modifier = Modifier
                 .padding(top=50.dp)
         )

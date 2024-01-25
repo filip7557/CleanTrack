@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -40,6 +41,7 @@ fun HomeScreen(
         Text(
             text = stringResource(id = R.string.my_companies),
             fontSize = 18.sp,
+            color = MaterialTheme.colorScheme.tertiary,
             modifier = Modifier
                 .padding(start = 12.dp, top=12.dp, bottom=12.dp)
         )
