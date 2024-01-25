@@ -6,21 +6,32 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import hr.ferit.filipcuric.cleantrack.data.di.repository.UserRepository
+import androidx.navigation.NavController
+import hr.ferit.filipcuric.cleantrack.data.repository.UserRepository
 import hr.ferit.filipcuric.cleantrack.navigation.HOME_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.LOGIN_ROUTE
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import okhttp3.internal.wait
 
 class LoginViewModel(
     private val userRepository: UserRepository,
+    private val navController: NavController,
 ) : ViewModel() {
 
     var username by mutableStateOf("")
         private set
     var password by mutableStateOf("")
         private set
+
+    var loginHasError by mutableStateOf(false)
 
     fun onUsernameValueChange(value: String) {
         username = value
@@ -30,16 +41,22 @@ class LoginViewModel(
         password = value
     }
 
-    fun loginUser() : String {
-        var route = LOGIN_ROUTE
-        runBlocking(Dispatchers.IO) {
-            val user = userRepository.fetchUser(username)
-            Log.d("USER", "${user.password} ?= $password")
-            if(user.password == password) {
-                userRepository.loginUser(user)
-                route = HOME_ROUTE
+    fun loginUser() {
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.loginUser(username, password)
+            val userId = userRepository.fetchLoggedInUser()
+            Log.d("LOGIN_USERID", "User ID: $userId")
+            if (userId != "")
+                viewModelScope.launch {
+                    navController.navigate(HOME_ROUTE) {
+                        popUpTo(LOGIN_ROUTE) {
+                            inclusive = true
+                        }
+                    }
+                }
+            else {
+                loginHasError = true
             }
         }
-        return route
     }
 }

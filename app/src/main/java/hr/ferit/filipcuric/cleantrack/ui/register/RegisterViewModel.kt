@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import hr.ferit.filipcuric.cleantrack.data.di.repository.UserRepository
+import hr.ferit.filipcuric.cleantrack.data.repository.UserRepository
 import hr.ferit.filipcuric.cleantrack.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

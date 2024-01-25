@@ -5,5 +5,5 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "loggedInAccount")
 data class DbLoggedInAccount(
-    @PrimaryKey val username: String,
+    @PrimaryKey val userId: String = "",
 )

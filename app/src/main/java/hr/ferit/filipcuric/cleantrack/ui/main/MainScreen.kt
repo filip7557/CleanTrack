@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -31,15 +32,18 @@ import hr.ferit.filipcuric.cleantrack.ui.register.RegisterRoute
 import hr.ferit.filipcuric.cleantrack.ui.register.RegisterViewModel
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.ParametersHolder
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    val loginViewModel = koinViewModel<LoginViewModel>()
+    val loginViewModel = koinViewModel<LoginViewModel> { ParametersHolder(List<NavController>(1){navController}.toMutableList()) }
     val registerViewModel = koinViewModel<RegisterViewModel>()
     val mainViewModel = koinViewModel<MainViewModel>()
+
+    mainViewModel.isUserLoggedIn()
 
 
     Scaffold(
@@ -53,18 +57,15 @@ fun MainScreen() {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = if(mainViewModel.isSomeoneLoggedIn()) NavigationItem.HomeDestination.route else NavigationItem.LoginDestination.route,
+                startDestination = if(mainViewModel.isLoggedIn) NavigationItem.HomeDestination.route else NavigationItem.LoginDestination.route,
                 modifier = Modifier.padding(padding)
             ) {
                 composable(NavigationItem.LoginDestination.route) {
                     LoginScreen(
                         viewModel = loginViewModel,
-                        onLoginClick = {
-                            navController.navigate(it)
-                        },
                         onRegisterClick = {
                             navController.navigate(REGISTER_ROUTE)
-                        }
+                        },
                     )
                 }
                 composable(NavigationItem.RegisterDestination.route) {

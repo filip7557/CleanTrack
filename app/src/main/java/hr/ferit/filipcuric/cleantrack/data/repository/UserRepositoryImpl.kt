@@ -1,13 +1,13 @@
-package hr.ferit.filipcuric.cleantrack.data.di.repository
+package hr.ferit.filipcuric.cleantrack.data.repository
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import hr.ferit.filipcuric.cleantrack.data.database.DbLoggedInAccount
 import hr.ferit.filipcuric.cleantrack.data.database.LoggedInAccountDao
 import hr.ferit.filipcuric.cleantrack.model.User
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import java.security.SecureRandom
 import java.security.spec.KeySpec
@@ -29,7 +29,17 @@ class UserRepositoryImpl(
         user: User,
     ) {
         db.collection("users").add(user).await()
-        loginUser(user)
+        var document = db.collection("users").whereEqualTo("username", user.username).get().await().documents.first()
+        saveLoggedInUser(document.id)
+    }
+
+    override suspend fun saveLoggedInUser(userId: String) {
+        loggedInAccountDao.delete()
+        loggedInAccountDao.insertAccount(
+            DbLoggedInAccount(
+                userId = userId
+            )
+        )
     }
 
     override suspend fun fetchUser(
@@ -63,7 +73,8 @@ class UserRepositoryImpl(
             }
             .addOnFailureListener { exception ->
                 Log.w("DB", "Error getting documents: $exception")
-            }.await()
+            }
+            .await()
         return isUsernameAvailable
     }
 
@@ -80,7 +91,8 @@ class UserRepositoryImpl(
             }
             .addOnFailureListener { exception ->
                 Log.w("DB", "Error getting documents: $exception")
-            }.await()
+            }
+            .await()
         return isEmailAvailable
     }
 
@@ -100,19 +112,35 @@ class UserRepositoryImpl(
         return hash.toString()
     }
 
-    override suspend fun loginUser(user: User) {
-        loggedInAccountDao.delete()
-        loggedInAccountDao.insertAccount(
-            DbLoggedInAccount(
-                username = user.username
-            )
-        )
+    override suspend fun loginUser(username: String, password: String) {
+        db.collection("users")
+            .whereEqualTo("username", username)
+            .get()
+            .addOnSuccessListener { documents ->
+                val document = documents.first()
+                val user = document.toObject(User::class.java)
+                Log.d("LOGIN", "${user.username} : ${user.password}")
+                if (user.password == password) {
+                    runBlocking {
+                        saveLoggedInUser(document.id)
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("DB", "Error getting documents: $exception")
+            }
     }
 
     override suspend fun fetchLoggedInUser(): String {
-        val account = loggedInAccountDao.account()
-        if(account == null)
-            return ""
-        return loggedInAccountDao.account().username
-        }
+        val account = loggedInAccountDao.account() ?: return ""
+        return account.userId
+    }
+
+    override suspend fun restoreLoggedInUser(): User? {
+        val userId = fetchLoggedInUser()
+        Log.d("ROOM", userId)
+        if (userId == "")
+            return null
+        return fetchUser(userId)
+    }
 }

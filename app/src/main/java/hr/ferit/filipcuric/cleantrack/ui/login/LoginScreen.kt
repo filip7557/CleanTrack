@@ -24,7 +24,6 @@ import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel,
-    onLoginClick: (String) -> Unit,
     onRegisterClick: () -> Unit,
 ) {
     Column(
@@ -67,8 +66,14 @@ fun LoginScreen(
             onValueChange = { viewModel.onPasswordValueChange(it) },
             visualTransformation = PasswordVisualTransformation()
         )
+        if(viewModel.loginHasError)
+            Text(
+                text = "Wrong username or password.",
+                fontSize = 18.sp,
+                color = Color.Red
+            )
         Button(
-            onClick = { onLoginClick(viewModel.loginUser()) },
+            onClick = { viewModel.loginUser() },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0, 90, 4),
                 contentColor = Color.White
