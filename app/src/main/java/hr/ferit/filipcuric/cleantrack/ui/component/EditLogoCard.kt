@@ -22,13 +22,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import hr.ferit.filipcuric.cleantrack.R
 
-data class EditLogoCardViewState(
-    val imageUrl: String?,
-)
-
 @Composable
 fun EditLogoCard(
-    editLogoCardViewState: EditLogoCardViewState,
+    imageUrl: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -50,7 +46,7 @@ fun EditLogoCard(
                 .clickable(onClick = onClick)
         ) {
             AsyncImage(
-                model = editLogoCardViewState.imageUrl,
+                model = imageUrl,
                 contentDescription = "Company logo",
                 modifier = Modifier
                     .fillMaxSize(),
@@ -59,7 +55,7 @@ fun EditLogoCard(
             Surface (
                 modifier = Modifier
                     .fillMaxSize(),
-                color = Color(0f, 0f, 0f, 0.9f, ColorSpaces.Srgb)
+                color = Color(0f, 0f, 0f, 0.8f, ColorSpaces.Srgb)
             ) {}
             Image(
                 painter = painterResource(id = R.drawable.ic_edit),
@@ -68,18 +64,4 @@ fun EditLogoCard(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun EditLogoCardPreview() {
-    EditLogoCard(
-        editLogoCardViewState = EditLogoCardViewState(
-            imageUrl = "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/cleaning-service-company-logo-design-template-db40091848b1283994ec71ae58270d9f_screen.jpg?ts=1669998818",
-        ),
-        onClick = { },
-        modifier = Modifier
-            .height(300.dp)
-            .width(300.dp)
-    )
 }

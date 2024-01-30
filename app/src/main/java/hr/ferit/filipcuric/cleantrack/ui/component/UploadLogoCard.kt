@@ -18,6 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -60,7 +62,7 @@ fun UploadLogoCard(
                 Surface (
                     modifier = Modifier
                         .fillMaxSize(),
-                    color = Color(0f, 0f, 0f, 0.9f, ColorSpaces.Srgb)
+                    color = Color(0f, 0f, 0f, 0.8f, ColorSpaces.Srgb)
                 ) {}
             }
             Column(
@@ -69,19 +71,16 @@ fun UploadLogoCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                if (imageUri == Uri.EMPTY) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_circledplus),
                         contentDescription = "Circled plus icon",
                         colorFilter = ColorFilter.tint(Color(0, 90, 4)),
                     )
-                } else {
                     Text(
                         text = stringResource(id = R.string.upload_logo),
                         color = Color(0, 90, 4),
                         fontSize = 18.sp,
                     )
-                }
             }
         }
     }

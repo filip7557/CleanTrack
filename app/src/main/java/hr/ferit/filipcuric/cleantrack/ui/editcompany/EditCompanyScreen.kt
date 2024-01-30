@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import hr.ferit.filipcuric.cleantrack.model.Company
 import hr.ferit.filipcuric.cleantrack.ui.component.EditLogoCard
-import hr.ferit.filipcuric.cleantrack.ui.component.EditLogoCardViewState
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 
 data class EditCompanyScreenViewState(
@@ -59,9 +58,7 @@ fun EditCompanyScreen(
             onValueChange = { /*TODO*/ }
         )
         EditLogoCard(
-            editLogoCardViewState = EditLogoCardViewState(
-                imageUrl = editCompanyScreenViewState.company.imageUrl
-            ),
+            imageUrl = editCompanyScreenViewState.company.imageUrl,
             onClick = onUploadClick,
             modifier = Modifier
                 .height(300.dp)
