@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import hr.ferit.filipcuric.cleantrack.mock.getCompanies
 import hr.ferit.filipcuric.cleantrack.mock.getLocations
 import hr.ferit.filipcuric.cleantrack.model.Company
 import hr.ferit.filipcuric.cleantrack.model.Location
@@ -113,18 +112,4 @@ fun CompanyInfoScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun CompanyInfoScreenPreview() {
-    CompanyInfoScreen(
-        companyInfoScreenViewState = CompanyInfoScreenViewState(
-            company = getCompanies().first(),
-            isManager = true,
-            locations = getLocations().filter { it.companyId == getCompanies().first().id }
-        ),
-        onLocationClick = { /*TODO*/ },
-        onAddLocationClick = { /*TODO*/ }
-    )
 }

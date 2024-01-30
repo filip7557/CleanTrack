@@ -14,10 +14,8 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import hr.ferit.filipcuric.cleantrack.mock.getCompanies
 import hr.ferit.filipcuric.cleantrack.model.Company
 import hr.ferit.filipcuric.cleantrack.ui.component.EditLogoCard
 import hr.ferit.filipcuric.cleantrack.ui.component.EditLogoCardViewState
@@ -80,18 +78,5 @@ fun EditCompanyScreen(
         ) {
             Text("Save changes")
         }
-    }
-}
-
-@Preview
-@Composable
-fun EditCompanyScreenPreview() {
-    EditCompanyScreen(
-        editCompanyScreenViewState = EditCompanyScreenViewState(
-            company = getCompanies().first()
-        ),
-        onCreateClick = { /*TODO*/ }
-    ) {
-
     }
 }
