@@ -70,6 +70,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("androidx.room:room-common:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("io.insert-koin:koin-androidx-compose:3.5.3")
 
