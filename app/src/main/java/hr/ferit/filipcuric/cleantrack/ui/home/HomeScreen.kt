@@ -26,7 +26,8 @@ private const val NUMBER_OF_COLUMNS = 2
 
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    onCreateClick: () -> Unit,
 ) {
     homeViewModel.getCompanies()
     Column(
@@ -50,7 +51,7 @@ fun HomeScreen(
                         .height(280.dp)
                         .width(160.dp)
                         .padding(vertical = 8.dp, horizontal = 8.dp),
-                    onClick = { /*TODO*/ }
+                    onClick = onCreateClick,
                 )
             }
 

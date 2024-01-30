@@ -36,6 +36,7 @@ import hr.ferit.filipcuric.cleantrack.navigation.HOME_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.LOGIN_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.NavigationItem
 import hr.ferit.filipcuric.cleantrack.navigation.REGISTER_ROUTE
+import hr.ferit.filipcuric.cleantrack.ui.createcompany.CreateCompanyScreen
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeScreen
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeViewModel
 import hr.ferit.filipcuric.cleantrack.ui.login.LoginScreen
@@ -114,6 +115,15 @@ fun MainScreen() {
                 composable(NavigationItem.HomeDestination.route) {
                     HomeScreen(
                         homeViewModel = homeViewModel,
+                        onCreateClick = {
+                            navController.navigate(NavigationItem.CreateCompanyDestination.route)
+                        }
+                    )
+                }
+                composable(NavigationItem.CreateCompanyDestination.route) {
+                    CreateCompanyScreen(
+                        onCreateClick = { /*TODO*/ },
+                        onUploadClick = { /*TODO*/ }
                     )
                 }
             }
