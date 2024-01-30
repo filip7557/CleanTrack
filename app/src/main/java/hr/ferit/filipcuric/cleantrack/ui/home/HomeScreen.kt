@@ -14,26 +14,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import hr.ferit.filipcuric.cleantrack.R
-import hr.ferit.filipcuric.cleantrack.mock.getCompanies
-import hr.ferit.filipcuric.cleantrack.model.Company
 import hr.ferit.filipcuric.cleantrack.ui.component.CompanyCard
 import hr.ferit.filipcuric.cleantrack.ui.component.CompanyCardViewState
 import hr.ferit.filipcuric.cleantrack.ui.component.CreateNewCompanyCard
 
 private const val NUMBER_OF_COLUMNS = 2
 
-data class HomeScreenViewState(
-    val companies: List<Company>
-)
-
 @Composable
 fun HomeScreen(
-    homeScreenViewState: HomeScreenViewState
+    homeViewModel: HomeViewModel
 ) {
+    homeViewModel.getCompanies()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,13 +55,13 @@ fun HomeScreen(
             }
 
             items(
-                homeScreenViewState.companies,
-                key = { company -> company.id }
+                homeViewModel.companies,
+                key = { company -> company.id!! }
             ) {
                 CompanyCard(
                     companyCardViewState = CompanyCardViewState(
                         name = it.name,
-                        position = it.position,
+                        position = if (it.managerId == null || it.managerId != homeViewModel.userId) "Worker" else "Manager",
                         imageUrl = it.imageUrl,
                     ),
                     modifier = Modifier
@@ -78,14 +73,4 @@ fun HomeScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen(
-        homeScreenViewState = HomeScreenViewState(
-            companies = getCompanies()
-        )
-    )
 }
