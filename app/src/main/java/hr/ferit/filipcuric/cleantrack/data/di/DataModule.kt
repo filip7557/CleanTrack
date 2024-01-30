@@ -1,6 +1,8 @@
 package hr.ferit.filipcuric.cleantrack.data.di
 
 import hr.ferit.filipcuric.cleantrack.data.database.LoggedInAccountDao
+import hr.ferit.filipcuric.cleantrack.data.repository.CompanyRepository
+import hr.ferit.filipcuric.cleantrack.data.repository.CompanyRepositoryImpl
 import hr.ferit.filipcuric.cleantrack.data.repository.UserRepository
 import hr.ferit.filipcuric.cleantrack.data.repository.UserRepositoryImpl
 import org.koin.dsl.module
@@ -10,5 +12,9 @@ val dataModule = module {
         UserRepositoryImpl(
             loggedInAccountDao = get<LoggedInAccountDao>(),
         )
+    }
+
+    single<CompanyRepository> {
+        CompanyRepositoryImpl()
     }
 }

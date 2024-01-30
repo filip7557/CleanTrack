@@ -1,6 +1,5 @@
 package hr.ferit.filipcuric.cleantrack.ui.main
 
-import android.content.res.Resources
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -15,7 +14,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -34,18 +32,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import hr.ferit.filipcuric.cleantrack.R
-import hr.ferit.filipcuric.cleantrack.mock.getCompanies
 import hr.ferit.filipcuric.cleantrack.navigation.HOME_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.LOGIN_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.NavigationItem
 import hr.ferit.filipcuric.cleantrack.navigation.REGISTER_ROUTE
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeScreen
-import hr.ferit.filipcuric.cleantrack.ui.home.HomeScreenViewState
+import hr.ferit.filipcuric.cleantrack.ui.home.HomeViewModel
 import hr.ferit.filipcuric.cleantrack.ui.login.LoginScreen
 import hr.ferit.filipcuric.cleantrack.ui.login.LoginViewModel
 import hr.ferit.filipcuric.cleantrack.ui.register.RegisterRoute
 import hr.ferit.filipcuric.cleantrack.ui.register.RegisterViewModel
-import hr.ferit.filipcuric.cleantrack.ui.theme.CleanTrackTheme
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.ParametersHolder
@@ -57,6 +53,7 @@ fun MainScreen() {
 
     val loginViewModel = koinViewModel<LoginViewModel> { ParametersHolder(List<NavController>(1){navController}.toMutableList()) }
     val registerViewModel = koinViewModel<RegisterViewModel>()
+    val homeViewModel = koinViewModel<HomeViewModel>()
     val mainViewModel = koinViewModel<MainViewModel>()
 
     mainViewModel.isUserLoggedIn()
@@ -116,9 +113,7 @@ fun MainScreen() {
                 }
                 composable(NavigationItem.HomeDestination.route) {
                     HomeScreen(
-                        homeScreenViewState = HomeScreenViewState(
-                            companies = getCompanies()
-                        )
+                        homeViewModel = homeViewModel,
                     )
                 }
             }

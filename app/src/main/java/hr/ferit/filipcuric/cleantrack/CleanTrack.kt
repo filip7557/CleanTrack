@@ -4,6 +4,7 @@ import android.app.Application
 import com.google.firebase.FirebaseApp
 import hr.ferit.filipcuric.cleantrack.data.di.dataModule
 import hr.ferit.filipcuric.cleantrack.data.di.databaseModule
+import hr.ferit.filipcuric.cleantrack.ui.home.di.homeModule
 import hr.ferit.filipcuric.cleantrack.ui.login.di.loginModule
 import hr.ferit.filipcuric.cleantrack.ui.main.di.mainModule
 import hr.ferit.filipcuric.cleantrack.ui.register.di.registerModule
@@ -21,6 +22,7 @@ class CleanTrack : Application() {
                 dataModule,
                 databaseModule,
                 mainModule,
+                homeModule,
             )
         }
     }
