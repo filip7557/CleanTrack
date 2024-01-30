@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import hr.ferit.filipcuric.cleantrack.R
 import hr.ferit.filipcuric.cleantrack.ui.component.CompanyCard
 import hr.ferit.filipcuric.cleantrack.ui.component.CompanyCardViewState
@@ -26,10 +25,10 @@ private const val NUMBER_OF_COLUMNS = 2
 
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel,
+    viewModel: HomeViewModel,
     onCreateClick: () -> Unit,
 ) {
-    homeViewModel.getCompanies()
+    viewModel.getCompanies()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -56,13 +55,13 @@ fun HomeScreen(
             }
 
             items(
-                homeViewModel.companies,
+                viewModel.companies,
                 key = { company -> company.id!! }
             ) {
                 CompanyCard(
                     companyCardViewState = CompanyCardViewState(
                         name = it.name,
-                        position = if (it.managerId == null || it.managerId != homeViewModel.userId) "Worker" else "Manager",
+                        position = if (it.managerId == null || it.managerId != viewModel.userId) "Worker" else "Manager",
                         imageUrl = it.imageUrl,
                     ),
                     modifier = Modifier
