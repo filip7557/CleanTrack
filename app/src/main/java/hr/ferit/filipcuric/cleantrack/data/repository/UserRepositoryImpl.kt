@@ -2,12 +2,10 @@ package hr.ferit.filipcuric.cleantrack.data.repository
 
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import hr.ferit.filipcuric.cleantrack.data.database.DbLoggedInAccount
 import hr.ferit.filipcuric.cleantrack.data.database.LoggedInAccountDao
 import hr.ferit.filipcuric.cleantrack.model.User
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
 class UserRepositoryImpl(
