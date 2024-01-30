@@ -37,6 +37,7 @@ import hr.ferit.filipcuric.cleantrack.navigation.LOGIN_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.NavigationItem
 import hr.ferit.filipcuric.cleantrack.navigation.REGISTER_ROUTE
 import hr.ferit.filipcuric.cleantrack.ui.createcompany.CreateCompanyScreen
+import hr.ferit.filipcuric.cleantrack.ui.createcompany.CreateCompanyViewModel
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeScreen
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeViewModel
 import hr.ferit.filipcuric.cleantrack.ui.login.LoginScreen
@@ -56,6 +57,7 @@ fun MainScreen() {
     val registerViewModel = koinViewModel<RegisterViewModel>()
     val homeViewModel = koinViewModel<HomeViewModel>()
     val mainViewModel = koinViewModel<MainViewModel>()
+    val createCompanyViewModel = koinViewModel<CreateCompanyViewModel>()
 
     mainViewModel.isUserLoggedIn()
 
@@ -114,7 +116,7 @@ fun MainScreen() {
                 }
                 composable(NavigationItem.HomeDestination.route) {
                     HomeScreen(
-                        homeViewModel = homeViewModel,
+                        viewModel = homeViewModel,
                         onCreateClick = {
                             navController.navigate(NavigationItem.CreateCompanyDestination.route)
                         }
@@ -122,6 +124,7 @@ fun MainScreen() {
                 }
                 composable(NavigationItem.CreateCompanyDestination.route) {
                     CreateCompanyScreen(
+                        viewModel = createCompanyViewModel,
                         onCreateClick = { /*TODO*/ },
                         onUploadClick = { /*TODO*/ }
                     )

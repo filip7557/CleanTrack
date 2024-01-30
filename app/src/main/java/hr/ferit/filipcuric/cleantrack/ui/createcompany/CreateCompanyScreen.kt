@@ -23,6 +23,7 @@ import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 
 @Composable
 fun CreateCompanyScreen(
+    viewModel: CreateCompanyViewModel,
     onCreateClick: () -> Unit,
     onUploadClick: () -> Unit,
 ) {
@@ -39,7 +40,7 @@ fun CreateCompanyScreen(
                 .padding(vertical=12.dp)
         )
         TextField(
-            value = "",
+            value = viewModel.name,
             label = {
                 Text(text = "Name")
             },
@@ -52,7 +53,9 @@ fun CreateCompanyScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = {
+                viewModel.onNameValueChange(it)
+            }
         )
         UploadLogoCard(
             onClick = onUploadClick,
@@ -71,13 +74,5 @@ fun CreateCompanyScreen(
         ) {
             Text("Create")
         }
-    }
-}
-
-@Preview
-@Composable
-fun CreateCompanyScreenPreview() {
-    CreateCompanyScreen(onCreateClick = { /*TODO*/ }) {
-
     }
 }
