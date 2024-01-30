@@ -1,8 +1,9 @@
 package hr.ferit.filipcuric.cleantrack.model
 
 data class Company(
-    val id: String,
-    val name: String,
-    val position: String,
-    val imageUrl: String?,
+    var id: String? = null,
+    val name: String = "",
+    val managerId: String? = null,
+    val imageUrl: String? = null,
+    val workers: List<Worker> = mutableListOf(),
 )
