@@ -2,6 +2,7 @@ package hr.ferit.filipcuric.cleantrack.data.repository
 
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import hr.ferit.filipcuric.cleantrack.data.database.DbLoggedInAccount
 import hr.ferit.filipcuric.cleantrack.data.database.LoggedInAccountDao
@@ -90,22 +91,15 @@ class UserRepositoryImpl(
     }
 
     override suspend fun loginUser(username: String, password: String) {
-        db.collection("users")
+        val document = db.collection("users")
             .whereEqualTo("username", username)
             .get()
-            .addOnSuccessListener { documents ->
-                val document = documents.first()
-                val user = document.toObject(User::class.java)
-                Log.d("LOGIN", "${user.username} : ${user.password}")
-                if (user.password == password) {
-                    runBlocking {
-                        saveLoggedInUser(document.id)
-                    }
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("DB", "Error getting documents: $exception")
-            }
+            .await()
+            .first() //I make sure to only have one account with this username at registration.
+        val user = document.toObject(User::class.java)
+        if(user.password == password) {
+            saveLoggedInUser(document.id)
+        }
     }
 
     override suspend fun fetchLoggedInUser(): String {
