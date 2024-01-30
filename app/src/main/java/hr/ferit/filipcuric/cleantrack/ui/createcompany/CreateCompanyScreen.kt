@@ -1,5 +1,8 @@
 package hr.ferit.filipcuric.cleantrack.ui.createcompany
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +18,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import hr.ferit.filipcuric.cleantrack.ui.component.UploadLogoCard
@@ -24,8 +26,6 @@ import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 @Composable
 fun CreateCompanyScreen(
     viewModel: CreateCompanyViewModel,
-    onCreateClick: () -> Unit,
-    onUploadClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -57,14 +57,24 @@ fun CreateCompanyScreen(
                 viewModel.onNameValueChange(it)
             }
         )
+        val launcher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = { uri: Uri? -> uri?.let { viewModel.onImageSelected(it) }}
+        )
         UploadLogoCard(
-            onClick = onUploadClick,
+            onClick = {
+                launcher.launch("image/*")
+            },
+            imageUri = viewModel.imageUri,
             modifier = Modifier
                 .height(300.dp)
                 .padding(bottom = 10.dp)
         )
         Button(
-            onClick = onCreateClick,
+            onClick = {
+                viewModel.createCompany()
+            },
+            enabled = viewModel.name.isNotEmpty(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0, 90, 4),
                 contentColor = Color.White

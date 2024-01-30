@@ -1,13 +1,17 @@
 package hr.ferit.filipcuric.cleantrack.data.repository
 
+import android.net.Uri
+import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import hr.ferit.filipcuric.cleantrack.model.Company
 import hr.ferit.filipcuric.cleantrack.model.Worker
 import kotlinx.coroutines.tasks.await
 
 class CompanyRepositoryImpl: CompanyRepository {
     private val db = Firebase.firestore
+    private val storageRef = Firebase.storage.reference
 
     override suspend fun fetchUserCompanies(userId: String): List<Company> {
         val companies = mutableListOf<Company>()
@@ -27,5 +31,21 @@ class CompanyRepositoryImpl: CompanyRepository {
             companies.add(company!!)
         }
         return companies
+    }
+
+    override suspend fun uploadCompanyLogo(uri: Uri) {
+        val imageRef = storageRef.child("images/${uri.pathSegments.last()}.jpg")
+        val uploadTask = imageRef.putFile(uri)
+        uploadTask.await()
+            /*.addOnSuccessListener {
+            Log.w("PICTURE", "Uploaded successfully.")
+        }
+            .addOnFailureListener{
+                Log.w("PICTURE", "Error uploading picture: $it")
+            }*/
+    }
+
+    override suspend fun createCompany(company: Company) {
+        db.collection("companies").add(company).await()
     }
 }

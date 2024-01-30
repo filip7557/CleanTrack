@@ -9,6 +9,7 @@ val createCompanyModule = module {
         CreateCompanyViewModel(
             userRepository = get(),
             companyRepository = get(),
+            navController = it.get()
         )
     }
 }

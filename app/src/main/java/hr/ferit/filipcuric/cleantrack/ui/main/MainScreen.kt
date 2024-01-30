@@ -57,7 +57,7 @@ fun MainScreen() {
     val registerViewModel = koinViewModel<RegisterViewModel>()
     val homeViewModel = koinViewModel<HomeViewModel>()
     val mainViewModel = koinViewModel<MainViewModel>()
-    val createCompanyViewModel = koinViewModel<CreateCompanyViewModel>()
+    val createCompanyViewModel = koinViewModel<CreateCompanyViewModel> { ParametersHolder(List<NavController>(1){navController}.toMutableList()) }
 
     mainViewModel.isUserLoggedIn()
 
@@ -125,8 +125,6 @@ fun MainScreen() {
                 composable(NavigationItem.CreateCompanyDestination.route) {
                     CreateCompanyScreen(
                         viewModel = createCompanyViewModel,
-                        onCreateClick = { /*TODO*/ },
-                        onUploadClick = { /*TODO*/ }
                     )
                 }
             }
