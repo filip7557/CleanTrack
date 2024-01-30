@@ -1,7 +1,6 @@
 package hr.ferit.filipcuric.cleantrack.data.repository
 
 import android.net.Uri
-import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
