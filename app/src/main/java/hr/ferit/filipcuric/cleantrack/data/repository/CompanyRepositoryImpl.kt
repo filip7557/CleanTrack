@@ -37,12 +37,6 @@ class CompanyRepositoryImpl: CompanyRepository {
         val imageRef = storageRef.child("images/${uri.pathSegments.last()}.jpg")
         val uploadTask = imageRef.putFile(uri)
         uploadTask.await()
-            /*.addOnSuccessListener {
-            Log.w("PICTURE", "Uploaded successfully.")
-        }
-            .addOnFailureListener{
-                Log.w("PICTURE", "Error uploading picture: $it")
-            }*/
     }
 
     override suspend fun createCompany(company: Company) {
