@@ -89,14 +89,15 @@ class UserRepositoryImpl(
     }
 
     override suspend fun loginUser(username: String, password: String) {
-        val document = db.collection("users")
+        val documents = db.collection("users")
             .whereEqualTo("username", username)
             .get()
             .await()
-            .first() //I make sure to only have one account with this username at registration.
-        val user = document.toObject(User::class.java)
-        if(user.password == password) {
-            saveLoggedInUser(document.id)
+        if (!documents.isEmpty) {
+            val user = documents.first().toObject(User::class.java)
+            if (user.password == password) {
+                saveLoggedInUser(documents.first().id)
+            }
         }
     }
 
