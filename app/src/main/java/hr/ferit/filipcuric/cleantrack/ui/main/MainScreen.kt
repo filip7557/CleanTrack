@@ -51,7 +51,7 @@ import org.koin.core.parameter.ParametersHolder
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val navBackStackEntry by navController.currentBackStackEntryAsState() //current screen
 
     val loginViewModel = koinViewModel<LoginViewModel> { ParametersHolder(List<NavController>(1){navController}.toMutableList()) }
     val registerViewModel = koinViewModel<RegisterViewModel>()
