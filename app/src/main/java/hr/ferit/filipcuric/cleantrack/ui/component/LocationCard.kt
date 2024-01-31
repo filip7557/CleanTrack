@@ -3,6 +3,7 @@ package hr.ferit.filipcuric.cleantrack.ui.component
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -41,7 +42,8 @@ fun LocationCard(
             containerColor = Color.White,
         ),
         modifier = modifier
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .defaultMinSize(minHeight = 100.dp, minWidth = 200.dp),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

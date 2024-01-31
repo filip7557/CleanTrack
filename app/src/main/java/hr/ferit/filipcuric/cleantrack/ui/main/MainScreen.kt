@@ -17,7 +17,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,15 +29,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import hr.ferit.filipcuric.cleantrack.R
+import hr.ferit.filipcuric.cleantrack.navigation.COMPANY_KEY_ID
+import hr.ferit.filipcuric.cleantrack.navigation.CompanyInfoDestination
 import hr.ferit.filipcuric.cleantrack.navigation.HOME_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.LOGIN_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.NavigationItem
 import hr.ferit.filipcuric.cleantrack.navigation.REGISTER_ROUTE
+import hr.ferit.filipcuric.cleantrack.ui.companyinfo.CompanyInfoScreen
+import hr.ferit.filipcuric.cleantrack.ui.companyinfo.CompanyInfoViewModel
 import hr.ferit.filipcuric.cleantrack.ui.createcompany.CreateCompanyScreen
 import hr.ferit.filipcuric.cleantrack.ui.createcompany.CreateCompanyViewModel
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeScreen
@@ -47,6 +55,7 @@ import hr.ferit.filipcuric.cleantrack.ui.register.RegisterViewModel
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.ParametersHolder
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MainScreen() {
@@ -73,19 +82,24 @@ fun MainScreen() {
         }
     }
 
+    var showCompanyEditButton by remember { mutableStateOf(false) }
+
 
     Scaffold(
         topBar = {
             TopBar(
                 backNavigationIcon = { if(showBackIcon) BackIcon(onBackClick = { navController.popBackStack() }) },
-                secondNavigationIcon = { if(showSignOutButton) SignOutIcon(onBackClick = {
+                secondNavigationIcon = { if(showSignOutButton) SignOutIcon(onClick = {
                     mainViewModel.signUserOut()
                     navController.navigate(LOGIN_ROUTE) {
                         popUpTo(HOME_ROUTE) {
                             inclusive = true
                         }
                     }
-                }) }
+                }) else if (showCompanyEditButton) {
+                    CompanyEditIcon(onClick = { /*TODO*/ })
+                }
+                }
             )
         }
     ) { padding ->
@@ -99,6 +113,7 @@ fun MainScreen() {
                 modifier = Modifier.padding(padding)
             ) {
                 composable(NavigationItem.LoginDestination.route) {
+                    showCompanyEditButton = false
                     LoginScreen(
                         viewModel = loginViewModel,
                         onRegisterClick = {
@@ -119,13 +134,32 @@ fun MainScreen() {
                         viewModel = homeViewModel,
                         onCreateClick = {
                             navController.navigate(NavigationItem.CreateCompanyDestination.route)
+                        },
+                        onCompanyClick = {
+                            navController.navigate(it)
                         }
                     )
                 }
                 composable(NavigationItem.CreateCompanyDestination.route) {
+                    showCompanyEditButton = false
                     CreateCompanyScreen(
                         viewModel = createCompanyViewModel,
                     )
+                }
+                composable(
+                    route = CompanyInfoDestination.route,
+                    arguments = listOf(navArgument(COMPANY_KEY_ID) { type = NavType.StringType}),
+                ) {
+                    val companyId = it.arguments?.getString(COMPANY_KEY_ID)
+                    val viewModel = koinViewModel<CompanyInfoViewModel>(parameters = { parametersOf(navController, companyId) })
+                    viewModel.getCompany()
+                    if(viewModel.isManager)
+                        showCompanyEditButton = true
+                    CompanyInfoScreen(
+                        viewModel = viewModel,
+                        onLocationClick = { /*TODO*/ }) {
+
+                    }
                 }
             }
         }
@@ -180,7 +214,7 @@ private fun BackIcon(
             painter = painterResource(id = R.drawable.baseline_arrow_back_ios_new_24),
             contentDescription = null,
             modifier = Modifier
-                .padding(8.dp)
+                .padding(0.dp)
                 .clickable(onClick = onBackClick),
             tint = MaterialTheme.colorScheme.secondary
         )
@@ -189,7 +223,7 @@ private fun BackIcon(
 
 @Composable
 private fun SignOutIcon(
-    onBackClick: () -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -202,7 +236,28 @@ private fun SignOutIcon(
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
-                .clickable(onClick = onBackClick),
+                .clickable(onClick = onClick),
+            tint = MaterialTheme.colorScheme.secondary
+        )
+    }
+}
+
+@Composable
+private fun CompanyEditIcon(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize(1f),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_edit),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(8.dp)
+                .clickable(onClick = onClick),
             tint = MaterialTheme.colorScheme.secondary
         )
     }

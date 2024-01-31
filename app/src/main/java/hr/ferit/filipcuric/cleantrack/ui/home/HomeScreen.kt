@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import hr.ferit.filipcuric.cleantrack.R
+import hr.ferit.filipcuric.cleantrack.navigation.CompanyInfoDestination
 import hr.ferit.filipcuric.cleantrack.ui.component.CompanyCard
 import hr.ferit.filipcuric.cleantrack.ui.component.CompanyCardViewState
 import hr.ferit.filipcuric.cleantrack.ui.component.CreateNewCompanyCard
@@ -27,6 +28,7 @@ private const val NUMBER_OF_COLUMNS = 2
 fun HomeScreen(
     viewModel: HomeViewModel,
     onCreateClick: () -> Unit,
+    onCompanyClick: (String) -> Unit,
 ) {
     viewModel.getCompanies()
     Column(
@@ -68,7 +70,7 @@ fun HomeScreen(
                         .height(280.dp)
                         .width(160.dp)
                         .padding(vertical = 8.dp, horizontal = 8.dp),
-                    onClick = { /*TODO*/ },
+                    onClick = { onCompanyClick(CompanyInfoDestination.createNavigation(it.id!!)) },
                 )
             }
         }

@@ -101,6 +101,12 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun getUserFromId(userId: String?): User {
+        val user = db.collection("users").document(userId  ?: "xxxxxxxxxxxxxxxxxxxx").get().await().toObject(User::class.java)
+        Log.w("USERS_DB", user.toString())
+        return user ?: User()
+    }
+
     override suspend fun fetchLoggedInUser(): String {
         val account = loggedInAccountDao.account() ?: return ""
         return account.userId

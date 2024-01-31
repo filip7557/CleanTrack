@@ -9,105 +9,230 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import hr.ferit.filipcuric.cleantrack.mock.getLocations
-import hr.ferit.filipcuric.cleantrack.model.Company
-import hr.ferit.filipcuric.cleantrack.model.Location
 import hr.ferit.filipcuric.cleantrack.ui.component.LocationCard
 import hr.ferit.filipcuric.cleantrack.ui.component.LocationCardViewState
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 
-data class CompanyInfoScreenViewState(
-    val company: Company,
-    val isManager: Boolean,
-    val locations: List<Location>,
-)
-
 @Composable
 fun CompanyInfoScreen(
-    companyInfoScreenViewState: CompanyInfoScreenViewState,
+    viewModel: CompanyInfoViewModel,
     onLocationClick: () -> Unit,
     onAddLocationClick: () -> Unit,
 ) {
-    Column(
+    LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
-        AsyncImage(
-            model = companyInfoScreenViewState.company.imageUrl,
-            contentDescription = "Company logo",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.45f)
-                .padding(bottom = 12.dp)
-        )
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
+        item {
+            AsyncImage(
+                model = viewModel.company.imageUrl,
+                contentDescription = "Company logo",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.45f)
+                    .padding(bottom = 12.dp)
+            )
+        }
+        item {
             Text(
-                text = companyInfoScreenViewState.company.name,
+                text = viewModel.company.name,
                 fontSize = 30.sp,
+                color = MaterialTheme.colorScheme.tertiary,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(vertical = 12.dp)
             )
+        }
+        item {
             Text(
-                text = "Locations",
-                fontSize = 22.sp,
+                text = "Manager:",
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.tertiary,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
             )
         }
-        LazyRow(
-            modifier = Modifier
-                .padding(vertical=12.dp)
-        ) {
-            items(
-                companyInfoScreenViewState.locations,
-                key = { location -> location.id}
-            ) {
-                LocationCard(
-                    locationCardViewState = LocationCardViewState(
-                        location = it,
-                    ),
-                    onClick = onLocationClick,
+        item {
+            Text(
+                text = viewModel.manager,
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.tertiary,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(bottom = 12.dp)
+            )
+        }
+        item {
+            Text(
+                text = "Workers",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.tertiary,
+            )
+        }
+        item {
+            if (viewModel.workers.isEmpty()) {
+                Text(
+                    text = "There are no workers added yet.",
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier
-                        .height(100.dp)
-                        .width(200.dp)
-                        .padding(horizontal = 4.dp)
+                        .padding(bottom=12.dp)
                 )
+            } else {
+                LazyHorizontalGrid(
+                    rows = GridCells.Fixed(3),
+                    modifier = Modifier
+                        .padding(bottom = 12.dp)
+                ) {
+                    this@LazyHorizontalGrid.items(
+                        viewModel.workers,
+                        key = { worker -> worker.id!! }
+                    ) {
+                        Text(
+                            text = "${it.firstname} ${it.lastname}",
+                            color = MaterialTheme.colorScheme.tertiary,
+                            fontSize = 14.sp
+                        )
+                    }
+                }
             }
         }
-        if(companyInfoScreenViewState.isManager) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
+        item {
+            if (viewModel.isManager) {
                 Button(
-                    onClick = onAddLocationClick,
+                    onClick = { /* TODO: Add on click event  */ },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Green,
-                    )
+                    ),
+                    modifier = Modifier
+                        .padding(bottom=12.dp)
                 ) {
-                    Text(text = "Add a location")
+                    Text(
+                        text = "Add a worker",
+                        color = MaterialTheme.colorScheme.tertiary
+                    )
+                }
+            }
+        }
+        item {
+            Text(
+                text = "Locations",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.tertiary,
+            )
+        }
+        item {
+            if (viewModel.locations.isEmpty()) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = "There are no locations added yet.",
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.tertiary,
+                    )
+                }
+            } else if (viewModel.locations.count() == 1) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    LocationCard(
+                        locationCardViewState = LocationCardViewState(
+                            location = viewModel.locations.first(),
+                        ),
+                        onClick = onLocationClick,
+                        modifier = Modifier
+                            .height(120.dp)
+                            .width(200.dp)
+                            .padding(vertical = 12.dp)
+                    )
+                }
+            } else {
+                LazyRow(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(vertical = 12.dp)
+                ) {
+                    items(
+                        viewModel.locations,
+                        key = { location -> location.id }
+                    ) {
+                        LocationCard(
+                            locationCardViewState = LocationCardViewState(
+                                location = it,
+                            ),
+                            onClick = onLocationClick,
+                            modifier = Modifier
+                                .height(120.dp)
+                                .width(200.dp)
+                                .padding(horizontal = 4.dp)
+                        )
+                    }
+                }
+            }
+        }
+        item {
+            if (viewModel.isManager) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Button(
+                        onClick = onAddLocationClick,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Green,
+                        )
+                    ) {
+                        Text(
+                            text = "Add a location",
+                            color = MaterialTheme.colorScheme.tertiary
+                        )
+                    }
+                    Button(
+                        onClick = { viewModel.deleteCompany() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Red
+                        )
+                    ) {
+                        Text(
+                            text = "Delete this company",
+                            color = MaterialTheme.colorScheme.tertiary
+                        )
+                    }
                 }
             }
         }
