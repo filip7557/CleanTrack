@@ -45,6 +45,8 @@ class CreateCompanyViewModel(
                         popUpTo(NavigationItem.CreateCompanyDestination.route) {
                             inclusive = true
                         }
+                        imageUri = Uri.EMPTY
+                        name = ""
                     }
                 }
             }
