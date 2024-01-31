@@ -30,7 +30,6 @@ fun HomeScreen(
     onCreateClick: () -> Unit,
     onCompanyClick: (String) -> Unit,
 ) {
-    viewModel.getCompanies()
     Column(
         modifier = Modifier
             .fillMaxSize()

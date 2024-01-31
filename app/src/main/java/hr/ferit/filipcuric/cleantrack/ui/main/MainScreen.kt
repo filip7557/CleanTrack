@@ -130,6 +130,7 @@ fun MainScreen() {
                     )
                 }
                 composable(NavigationItem.HomeDestination.route) {
+                    homeViewModel.getCompanies()
                     HomeScreen(
                         viewModel = homeViewModel,
                         onCreateClick = {
