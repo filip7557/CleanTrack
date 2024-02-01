@@ -20,13 +20,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import hr.ferit.filipcuric.cleantrack.ui.component.LoadingAnimation
 import hr.ferit.filipcuric.cleantrack.ui.component.UploadLogoCard
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 
 @Composable
 fun CreateCompanyScreen(
     viewModel: CreateCompanyViewModel,
+    onCreateClick: () -> Unit,
 ) {
+    if(viewModel.loading) {
+        LoadingAnimation()
+    } else {
     Column(
         modifier = Modifier
             .padding(horizontal = 20.dp)
@@ -37,7 +42,7 @@ fun CreateCompanyScreen(
             color = MaterialTheme.colorScheme.tertiary,
             fontSize = 18.sp,
             modifier = Modifier
-                .padding(vertical=12.dp)
+                .padding(vertical = 12.dp)
         )
         TextField(
             value = viewModel.name,
@@ -59,7 +64,7 @@ fun CreateCompanyScreen(
         )
         val launcher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.GetContent(),
-            onResult = { uri: Uri? -> uri?.let { viewModel.onImageSelected(it) }}
+            onResult = { uri: Uri? -> uri?.let { viewModel.onImageSelected(it) } }
         )
         UploadLogoCard(
             onClick = {
@@ -73,6 +78,7 @@ fun CreateCompanyScreen(
         Button(
             onClick = {
                 viewModel.createCompany()
+                onCreateClick()
             },
             enabled = viewModel.name.isNotEmpty(),
             colors = ButtonDefaults.buttonColors(
@@ -84,5 +90,6 @@ fun CreateCompanyScreen(
         ) {
             Text("Create")
         }
+    }
     }
 }

@@ -1,6 +1,5 @@
 package hr.ferit.filipcuric.cleantrack.ui.register
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,28 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 
 @Composable
-fun RegisterRoute(
-    viewModel: RegisterViewModel,
-    onRegisterClick: () -> Unit,
-) {
-
-    RegisterScreen(
-        viewModel = viewModel,
-        onRegisterClick = {
-            onRegisterClick()
-        }
-    )
-}
-
-@Composable
 fun RegisterScreen(
     viewModel: RegisterViewModel,
-    onRegisterClick: (Unit) -> Unit,
+    onRegisterClick: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -95,7 +79,14 @@ fun RegisterScreen(
         val emailHasError by viewModel.emailHasError.collectAsState()
         if (emailHasError) {
             Text(
-                text = "There is already an account with this email. Log in instead.",
+                text = "There is already an account with this email address. Log in instead.",
+                color = Color.Red
+            )
+        }
+        val emailIsNotEmail by viewModel.emailIsNotEmail.collectAsState()
+        if (emailIsNotEmail && viewModel.email.isNotEmpty()) {
+            Text(
+                text = "Invalid email address.",
                 color = Color.Red
             )
         }
@@ -157,11 +148,13 @@ fun RegisterScreen(
         Button(
             enabled = !userNameHasError && !emailHasError && viewModel.areTextFieldFilled(),
             onClick = {
-                onRegisterClick(viewModel.registerUser())
+                viewModel.registerUser()
+                onRegisterClick()
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0, 90, 4),
-                contentColor = Color.White
+                contentColor = Color.White,
+                disabledContainerColor = Color.DarkGray
             ),
             modifier = Modifier
                 .fillMaxWidth()

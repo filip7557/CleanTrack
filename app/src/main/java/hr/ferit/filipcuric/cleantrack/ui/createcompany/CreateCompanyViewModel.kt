@@ -27,6 +27,9 @@ class CreateCompanyViewModel(
     var imageUri: Uri? by mutableStateOf(Uri.EMPTY)
         private set
 
+    var loading by mutableStateOf(false)
+        private set
+
     private var imageUrl = ""
 
     fun onNameValueChange(value: String) {
@@ -39,6 +42,7 @@ class CreateCompanyViewModel(
             else {
                 imageUrl = "https://firebasestorage.googleapis.com/v0/b/cleantrack-8d487.appspot.com/o/images%2F${imageUri!!.pathSegments.last()}.jpg?alt=media&token=df1dcb6e-61e4-44e2-bcc9-06a1e0b86f18"
                 viewModelScope.launch {
+                    loading = true
                     companyRepository.uploadCompanyLogo(imageUri!!)
                     navController.navigate(HOME_ROUTE) {
                         popUpTo(HOME_ROUTE) {
@@ -47,6 +51,7 @@ class CreateCompanyViewModel(
                         imageUri = Uri.EMPTY
                         name = ""
                     }
+                    loading = false
                 }
             }
     }

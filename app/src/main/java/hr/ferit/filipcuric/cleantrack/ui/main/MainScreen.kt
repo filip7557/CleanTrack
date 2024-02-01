@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -58,11 +57,10 @@ import hr.ferit.filipcuric.cleantrack.ui.home.HomeScreen
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeViewModel
 import hr.ferit.filipcuric.cleantrack.ui.login.LoginScreen
 import hr.ferit.filipcuric.cleantrack.ui.login.LoginViewModel
-import hr.ferit.filipcuric.cleantrack.ui.register.RegisterRoute
+import hr.ferit.filipcuric.cleantrack.ui.register.RegisterScreen
 import hr.ferit.filipcuric.cleantrack.ui.register.RegisterViewModel
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.ParametersHolder
 import org.koin.core.parameter.parametersOf
 
 @Composable
@@ -77,6 +75,8 @@ fun MainScreen() {
     val createCompanyViewModel = koinViewModel<CreateCompanyViewModel>(parameters = { parametersOf(navController) })
 
     mainViewModel.isUserLoggedIn()
+    if(mainViewModel.isLoggedIn)
+        homeViewModel.getCompanies()
 
     val showBackIcon by remember {
         derivedStateOf {
@@ -93,6 +93,7 @@ fun MainScreen() {
     var showCompanyEditButton by remember { mutableStateOf(false) }
 
     var currentCompanyId = ""
+    var addedWorker = false
 
 
     Scaffold(
@@ -101,6 +102,7 @@ fun MainScreen() {
                 backNavigationIcon = { if(showBackIcon) BackIcon(onBackClick = { navController.popBackStack() }) },
                 secondNavigationIcon = { if(showSignOutButton) SignOutIcon(onClick = {
                     mainViewModel.signUserOut()
+                    loginViewModel.loading = false
                     navController.navigate(LOGIN_ROUTE) {
                         popUpTo(HOME_ROUTE) {
                             inclusive = true
@@ -128,21 +130,24 @@ fun MainScreen() {
                     showCompanyEditButton = false
                     LoginScreen(
                         viewModel = loginViewModel,
+                        onLoginClick = {
+                            homeViewModel.getCompanies()
+                        },
                         onRegisterClick = {
                             navController.navigate(REGISTER_ROUTE)
                         },
                     )
                 }
                 composable(NavigationItem.RegisterDestination.route) {
-                    RegisterRoute(
+                    RegisterScreen(
                         viewModel = registerViewModel,
                         onRegisterClick = {
                             navController.navigate(HOME_ROUTE)
+                            homeViewModel.getCompanies()
                         }
                     )
                 }
                 composable(NavigationItem.HomeDestination.route) {
-                    homeViewModel.getCompanies()
                     HomeScreen(
                         viewModel = homeViewModel,
                         onCreateClick = {
@@ -157,6 +162,9 @@ fun MainScreen() {
                     showCompanyEditButton = false
                     CreateCompanyScreen(
                         viewModel = createCompanyViewModel,
+                        onCreateClick = {
+                            homeViewModel.getCompanies()
+                        }
                     )
                 }
                 composable(
@@ -166,10 +174,16 @@ fun MainScreen() {
                     val companyId = it.arguments?.getString(COMPANY_KEY_ID)
                     currentCompanyId = companyId!!
                     val viewModel = koinViewModel<CompanyInfoViewModel>(parameters = { parametersOf(navController, companyId) })
-                    viewModel.getCompany()
+                    if(addedWorker) {
+                        viewModel.getWorkers()
+                        addedWorker = false
+                    }
                     showCompanyEditButton = viewModel.isManager
                     CompanyInfoScreen(
                         viewModel = viewModel,
+                        onDeleteCompanyClick = {
+                            homeViewModel.getCompanies()
+                        },
                         onLocationClick = { /*TODO*/ }) {
 
                     }
@@ -180,6 +194,7 @@ fun MainScreen() {
                 ) {
                     val companyId = it.arguments?.getString(ADD_WORKER_COMPANY_KEY_ID)
                     val viewModel = koinViewModel<AddWorkerViewModel>(parameters = { parametersOf(navController, companyId) })
+                    addedWorker = true
                     showCompanyEditButton = false
                     AddWorkerScreen(
                         viewModel = viewModel,

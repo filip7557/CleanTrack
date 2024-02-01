@@ -38,21 +38,32 @@ class CompanyInfoViewModel(
     var isManager by mutableStateOf(false)
         private set
 
-    fun getCompany() {
+    var loading by mutableStateOf(true)
+        private set
+
+    init {
+        getCompany()
+    }
+
+    private fun getCompany() {
         viewModelScope.launch {
-            company = companyRepository.getCompanyFromId(companyId)
-            Log.w("COMPANY_INFO", "${company.name} -> ${company.managerId}")
-            getCompanyManager()
-            isCurrentUserManager()
-            getLocations()
-            getWorkers()
-            Log.d("LOCATIONS", locations.toString())
+            viewModelScope.launch {
+                company = companyRepository.getCompanyFromId(companyId)
+                Log.w("COMPANY_INFO", "${company.name} -> ${company.managerId}")
+                getCompanyManager()
+                isCurrentUserManager()
+                getLocations()
+                getWorkers()
+                Log.d("LOCATIONS", locations.toString())
+            }
         }
     }
 
-    private fun getWorkers() {
+    fun getWorkers() {
         viewModelScope.launch {
+            loading = true
             workers = companyRepository.getWorkersFromCompanyId(companyId)
+            loading = false
         }
     }
 

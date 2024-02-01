@@ -25,21 +25,26 @@ class LoginViewModel(
 
     var loginHasError by mutableStateOf(false)
 
+    var loading by mutableStateOf(false)
+
     fun onUsernameValueChange(value: String) {
         username = value
+        loginHasError = false
     }
 
     fun onPasswordValueChange(value: String) {
         password = value
+        loginHasError = false
     }
 
     fun loginUser() {
         viewModelScope.launch(Dispatchers.IO) {
+            loading = true
             userRepository.loginUser(username, password)
             val userId = userRepository.fetchLoggedInUser()
             Log.d("LOGIN_USERID", "User ID: $userId")
             if (userId != "")
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.Main) {
                     navController.navigate(HOME_ROUTE) {
                         popUpTo(LOGIN_ROUTE) {
                             inclusive = true
@@ -47,6 +52,7 @@ class LoginViewModel(
                     }
                 }
             else {
+                loading = false
                 loginHasError = true
             }
         }

@@ -51,6 +51,15 @@ class RegisterViewModel(
                 initialValue = false
             )
 
+    val emailIsNotEmail: StateFlow<Boolean> =
+        snapshotFlow { email }
+            .mapLatest { !it.contains("@") }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = false
+            )
+
 
     fun onUsernameValueChange(value: String) {
         username = value
@@ -87,6 +96,6 @@ class RegisterViewModel(
     }
 
     fun areTextFieldFilled() : Boolean {
-        return username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && firstname.isNotEmpty() && lastname.isNotEmpty()
+        return username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && firstname.isNotEmpty() && lastname.isNotEmpty() && !emailIsNotEmail.value
     }
 }

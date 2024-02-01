@@ -20,11 +20,16 @@ class HomeViewModel(
     var companies by mutableStateOf(listOf<Company>())
     var userId: String = ""
 
+    var loading by mutableStateOf(true)
+
     fun getCompanies() {
+        loading = true
         viewModelScope.launch(Dispatchers.IO) {
+            loading = true
             userId = userRepository.fetchLoggedInUser()
             Log.w("COMPANY VM", "GETTING COMPANIES FOR $userId")
             companies = companyRepository.fetchUserCompanies(userId)
+            loading = false
         }
     }
 }
