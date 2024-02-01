@@ -158,8 +158,7 @@ fun MainScreen() {
                     val companyId = it.arguments?.getString(COMPANY_KEY_ID)
                     val viewModel = koinViewModel<CompanyInfoViewModel>(parameters = { parametersOf(navController, companyId) })
                     viewModel.getCompany()
-                    if(viewModel.isManager)
-                        showCompanyEditButton = true
+                    showCompanyEditButton = viewModel.isManager
                     CompanyInfoScreen(
                         viewModel = viewModel,
                         onLocationClick = { /*TODO*/ }) {
