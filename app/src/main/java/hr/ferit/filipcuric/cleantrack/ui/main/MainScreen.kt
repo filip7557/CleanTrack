@@ -70,11 +70,11 @@ fun MainScreen() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState() //current screen
 
-    val loginViewModel = koinViewModel<LoginViewModel> { ParametersHolder(List<NavController>(1){navController}.toMutableList()) }
+    val loginViewModel = koinViewModel<LoginViewModel>(parameters = { parametersOf(navController) })
     val registerViewModel = koinViewModel<RegisterViewModel>()
     val homeViewModel = koinViewModel<HomeViewModel>()
     val mainViewModel = koinViewModel<MainViewModel>()
-    val createCompanyViewModel = koinViewModel<CreateCompanyViewModel> { ParametersHolder(List<NavController>(1){navController}.toMutableList()) }
+    val createCompanyViewModel = koinViewModel<CreateCompanyViewModel>(parameters = { parametersOf(navController) })
 
     mainViewModel.isUserLoggedIn()
 

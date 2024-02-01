@@ -8,9 +8,10 @@ import org.koin.dsl.module
 
 val loginModule = module {
     viewModel {
+        (navController : NavController) ->
         LoginViewModel(
             userRepository = get(),
-            navController = it.get(),
+            navController = navController,
         )
     }
 }
