@@ -1,4 +1,4 @@
-package hr.ferit.filipcuric.cleantrack
+package hr.ferit.filipcuric.cleantrack.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
