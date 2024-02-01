@@ -12,6 +12,7 @@ import hr.ferit.filipcuric.cleantrack.data.repository.UserRepository
 import hr.ferit.filipcuric.cleantrack.model.Company
 import hr.ferit.filipcuric.cleantrack.model.Location
 import hr.ferit.filipcuric.cleantrack.model.User
+import hr.ferit.filipcuric.cleantrack.navigation.AddWorkerDestination
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -81,6 +82,19 @@ class CompanyInfoViewModel(
         viewModelScope.launch {
             navController.popBackStack()
             companyRepository.deleteCompanyById(companyId)
+        }
+    }
+
+    fun onAddWorkerClick() {
+        navController.navigate(
+            AddWorkerDestination.createNavigation(companyId)
+        )
+    }
+
+    fun removeWorker(userId: String?) {
+        viewModelScope.launch {
+            userRepository.removeWorkerByUserIdAndCompanyId(userId, companyId)
+            getWorkers()
         }
     }
 }

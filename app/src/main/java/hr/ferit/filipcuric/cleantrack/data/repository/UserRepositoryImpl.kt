@@ -6,12 +6,15 @@ import com.google.firebase.ktx.Firebase
 import hr.ferit.filipcuric.cleantrack.data.database.DbLoggedInAccount
 import hr.ferit.filipcuric.cleantrack.data.database.LoggedInAccountDao
 import hr.ferit.filipcuric.cleantrack.model.User
+import hr.ferit.filipcuric.cleantrack.model.Worker
 import kotlinx.coroutines.tasks.await
 
 class UserRepositoryImpl(
     private val loggedInAccountDao: LoggedInAccountDao,
 ) : UserRepository {
     private val db = Firebase.firestore
+
+    private var loggedInUserId: String = ""
 
     override suspend fun createUser(
         user: User,
@@ -103,20 +106,53 @@ class UserRepositoryImpl(
 
     override suspend fun getUserFromId(userId: String?): User {
         val user = db.collection("users").document(userId  ?: "xxxxxxxxxxxxxxxxxxxx").get().await().toObject(User::class.java)
+        user?.id = userId
         Log.w("USERS_DB", user.toString())
         return user ?: User()
     }
 
-    override suspend fun fetchLoggedInUser(): String {
-        val account = loggedInAccountDao.account() ?: return ""
-        return account.userId
+    override suspend fun getUsersByUsername(searchValue: String): List<User> {
+        val users = mutableListOf<User>()
+        db.collection("users").get()
+            .addOnSuccessListener {documents ->
+                for (document in documents) {
+                    val user = document.toObject(User::class.java)
+                    if (searchValue.isNotEmpty() && user.username.startsWith(searchValue)) {
+                        user.id = document.id
+                        users.add(user)
+                    }
+                }
+            }.await()
+        return users
     }
 
-    override suspend fun restoreLoggedInUser(): User? {
-        val userId = fetchLoggedInUser()
-        Log.d("ROOM", userId)
-        if (userId == "")
-            return null
-        return fetchUser(userId)
+    override suspend fun removeWorkerByUserIdAndCompanyId(userId: String?, companyId: String) {
+        val document = db.collection("workers").whereEqualTo("userId", userId!!).whereEqualTo("companyId", companyId).get().await().first()
+        db.collection("workers").document(document.id).delete().await()
+    }
+
+    override suspend fun addUserToCompanyByCompanyId(userId: String, companyId: String) : Boolean {
+        val workers = mutableListOf<Worker>()
+        val documents = db.collection("workers").whereEqualTo("userId", userId).get().await()
+        for (document in documents) {
+            val worker = document.toObject(Worker::class.java)
+            workers.add(worker)
+        }
+        Log.d("WORKERS", workers.toString())
+        for (worker in workers) {
+            if (worker.companyId == companyId || loggedInUserId == userId)
+                return false
+        }
+        val newWorker = Worker(userId = userId, companyId = companyId)
+        db.collection("workers").add(newWorker)
+            .addOnSuccessListener { Log.w("WORKER", "Saved worker.") }
+            .await()
+        return true
+    }
+
+    override suspend fun fetchLoggedInUser(): String {
+        val account = loggedInAccountDao.account() ?: return ""
+        loggedInUserId = account.userId
+        return account.userId
     }
 }
