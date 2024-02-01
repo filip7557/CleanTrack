@@ -3,6 +3,7 @@ package hr.ferit.filipcuric.cleantrack
 import android.app.Application
 import hr.ferit.filipcuric.cleantrack.data.di.dataModule
 import hr.ferit.filipcuric.cleantrack.data.di.databaseModule
+import hr.ferit.filipcuric.cleantrack.ui.addworker.di.addWorkerModule
 import hr.ferit.filipcuric.cleantrack.ui.companyinfo.di.companyInfoModule
 import hr.ferit.filipcuric.cleantrack.ui.createcompany.di.createCompanyModule
 import hr.ferit.filipcuric.cleantrack.ui.home.di.homeModule
@@ -26,6 +27,7 @@ class CleanTrack : Application() {
                 homeModule,
                 createCompanyModule,
                 companyInfoModule,
+                addWorkerModule,
             )
         }
     }

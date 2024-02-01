@@ -36,12 +36,16 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import hr.ferit.filipcuric.cleantrack.R
+import hr.ferit.filipcuric.cleantrack.navigation.ADD_WORKER_COMPANY_KEY_ID
+import hr.ferit.filipcuric.cleantrack.navigation.AddWorkerDestination
 import hr.ferit.filipcuric.cleantrack.navigation.COMPANY_KEY_ID
 import hr.ferit.filipcuric.cleantrack.navigation.CompanyInfoDestination
 import hr.ferit.filipcuric.cleantrack.navigation.HOME_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.LOGIN_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.NavigationItem
 import hr.ferit.filipcuric.cleantrack.navigation.REGISTER_ROUTE
+import hr.ferit.filipcuric.cleantrack.ui.addworker.AddWorkerScreen
+import hr.ferit.filipcuric.cleantrack.ui.addworker.AddWorkerViewModel
 import hr.ferit.filipcuric.cleantrack.ui.companyinfo.CompanyInfoScreen
 import hr.ferit.filipcuric.cleantrack.ui.companyinfo.CompanyInfoViewModel
 import hr.ferit.filipcuric.cleantrack.ui.createcompany.CreateCompanyScreen
@@ -161,6 +165,17 @@ fun MainScreen() {
                         onLocationClick = { /*TODO*/ }) {
 
                     }
+                }
+                composable(
+                    route = AddWorkerDestination.route,
+                    arguments = listOf(navArgument(ADD_WORKER_COMPANY_KEY_ID) { type = NavType.StringType }),
+                ) {
+                    val companyId = it.arguments?.getString(ADD_WORKER_COMPANY_KEY_ID)
+                    val viewModel = koinViewModel<AddWorkerViewModel>(parameters = { parametersOf(navController, companyId) })
+                    showCompanyEditButton = false
+                    AddWorkerScreen(
+                        viewModel = viewModel,
+                    )
                 }
             }
         }

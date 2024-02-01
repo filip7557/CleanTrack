@@ -17,6 +17,10 @@ const val ADD_LOCATION_ROUTE = "AddLocation"
 const val ADD_LOCATION_KEY_COMPANY_ID = "companyId"
 const val ADD_LOCATION_ROUTE_WITH_PARAMS = "$ADD_LOCATION_ROUTE/{$ADD_LOCATION_KEY_COMPANY_ID}"
 
+const val ADD_WORKER_ROUTE = "AddWorker"
+const val ADD_WORKER_COMPANY_KEY_ID = "companyId"
+const val ADD_WORKER_ROUTE_WITH_PARAMS = "$ADD_WORKER_ROUTE/{$ADD_WORKER_COMPANY_KEY_ID}"
+
 sealed class CleanTrackDestination(
     open val route: String
 )
@@ -51,5 +55,9 @@ data object EditCompanyDestination : CleanTrackDestination(EDIT_COMPANY_ROUTE_WI
 }
 
 data object AddLocationDestination : CleanTrackDestination(ADD_LOCATION_ROUTE_WITH_PARAMS) {
-    fun createNavigation(companyId: String): String = "$ADD_LOCATION_ROUTE_WITH_PARAMS/${companyId}"
+    fun createNavigation(companyId: String): String = "$ADD_LOCATION_ROUTE/${companyId}"
+}
+
+data object AddWorkerDestination : CleanTrackDestination(ADD_WORKER_ROUTE_WITH_PARAMS) {
+    fun createNavigation(companyId: String): String = "$ADD_WORKER_ROUTE/${companyId}"
 }
