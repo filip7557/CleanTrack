@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import hr.ferit.filipcuric.cleantrack.mock.getLocations
 import hr.ferit.filipcuric.cleantrack.model.Location
 
 data class LocationCardViewState(
@@ -71,18 +70,4 @@ fun LocationCard(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun LocationCardPreview() {
-    LocationCard(
-        locationCardViewState = LocationCardViewState(
-            location = getLocations().first()
-        ),
-        modifier = Modifier
-            .height(100.dp)
-            .width(200.dp),
-        onClick = { /*TODO*/ },
-    )
 }
