@@ -127,7 +127,7 @@ fun CompanyInfoScreen(
                                 .padding(end=8.dp)
                                 .width(150.dp),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
+                            horizontalArrangement = if (viewModel.isManager) Arrangement.SpaceBetween else Arrangement.Center
                         ) {
                             Text(
                                 text = "${it.firstname} ${it.lastname}",
