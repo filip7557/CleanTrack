@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -56,14 +57,17 @@ fun LocationCard(
                 text = locationCardViewState.location.name,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = locationCardViewState.location.address,
                 fontWeight = FontWeight.Light,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = "${locationCardViewState.location.frequency} times/week",
                 fontWeight = FontWeight.Light,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
