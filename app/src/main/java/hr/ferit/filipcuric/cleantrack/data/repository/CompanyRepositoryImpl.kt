@@ -80,6 +80,13 @@ class CompanyRepositoryImpl: CompanyRepository {
         return users
     }
 
+    override suspend fun editCompanyById(
+        companyId: String,
+        company: Company,
+    ) {
+        db.collection("companies").document(companyId).set(company).await()
+    }
+
     override suspend fun deleteCompanyById(id: String?) {
         db.collection("companies").document(id!!).delete().await()
     }

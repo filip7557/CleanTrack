@@ -6,6 +6,7 @@ import hr.ferit.filipcuric.cleantrack.data.di.databaseModule
 import hr.ferit.filipcuric.cleantrack.ui.addworker.di.addWorkerModule
 import hr.ferit.filipcuric.cleantrack.ui.companyinfo.di.companyInfoModule
 import hr.ferit.filipcuric.cleantrack.ui.createcompany.di.createCompanyModule
+import hr.ferit.filipcuric.cleantrack.ui.editcompany.di.editCompanyModule
 import hr.ferit.filipcuric.cleantrack.ui.home.di.homeModule
 import hr.ferit.filipcuric.cleantrack.ui.login.di.loginModule
 import hr.ferit.filipcuric.cleantrack.ui.main.di.mainModule
@@ -28,6 +29,7 @@ class CleanTrack : Application() {
                 createCompanyModule,
                 companyInfoModule,
                 addWorkerModule,
+                editCompanyModule,
             )
         }
     }

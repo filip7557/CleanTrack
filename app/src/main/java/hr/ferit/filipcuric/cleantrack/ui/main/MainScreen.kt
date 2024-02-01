@@ -40,6 +40,8 @@ import hr.ferit.filipcuric.cleantrack.navigation.ADD_WORKER_COMPANY_KEY_ID
 import hr.ferit.filipcuric.cleantrack.navigation.AddWorkerDestination
 import hr.ferit.filipcuric.cleantrack.navigation.COMPANY_KEY_ID
 import hr.ferit.filipcuric.cleantrack.navigation.CompanyInfoDestination
+import hr.ferit.filipcuric.cleantrack.navigation.EDIT_COMPANY_KEY_ID
+import hr.ferit.filipcuric.cleantrack.navigation.EditCompanyDestination
 import hr.ferit.filipcuric.cleantrack.navigation.HOME_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.LOGIN_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.NavigationItem
@@ -50,6 +52,8 @@ import hr.ferit.filipcuric.cleantrack.ui.companyinfo.CompanyInfoScreen
 import hr.ferit.filipcuric.cleantrack.ui.companyinfo.CompanyInfoViewModel
 import hr.ferit.filipcuric.cleantrack.ui.createcompany.CreateCompanyScreen
 import hr.ferit.filipcuric.cleantrack.ui.createcompany.CreateCompanyViewModel
+import hr.ferit.filipcuric.cleantrack.ui.editcompany.EditCompanyScreen
+import hr.ferit.filipcuric.cleantrack.ui.editcompany.EditCompanyViewModel
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeScreen
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeViewModel
 import hr.ferit.filipcuric.cleantrack.ui.login.LoginScreen
@@ -88,6 +92,8 @@ fun MainScreen() {
 
     var showCompanyEditButton by remember { mutableStateOf(false) }
 
+    var currentCompanyId = ""
+
 
     Scaffold(
         topBar = {
@@ -101,7 +107,9 @@ fun MainScreen() {
                         }
                     }
                 }) else if (showCompanyEditButton) {
-                    CompanyEditIcon(onClick = { /*TODO*/ })
+                    CompanyEditIcon(onClick = {
+                        navController.navigate(EditCompanyDestination.createNavigation(currentCompanyId))
+                    })
                 }
                 }
             )
@@ -156,6 +164,7 @@ fun MainScreen() {
                     arguments = listOf(navArgument(COMPANY_KEY_ID) { type = NavType.StringType}),
                 ) {
                     val companyId = it.arguments?.getString(COMPANY_KEY_ID)
+                    currentCompanyId = companyId!!
                     val viewModel = koinViewModel<CompanyInfoViewModel>(parameters = { parametersOf(navController, companyId) })
                     viewModel.getCompany()
                     showCompanyEditButton = viewModel.isManager
@@ -173,6 +182,18 @@ fun MainScreen() {
                     val viewModel = koinViewModel<AddWorkerViewModel>(parameters = { parametersOf(navController, companyId) })
                     showCompanyEditButton = false
                     AddWorkerScreen(
+                        viewModel = viewModel,
+                    )
+                }
+                composable(
+                    route = EditCompanyDestination.route,
+                    arguments = listOf(navArgument(EDIT_COMPANY_KEY_ID) { type = NavType.StringType })
+                ) {
+                    val companyId = it.arguments?.getString(EDIT_COMPANY_KEY_ID)
+                    val viewModel = koinViewModel<EditCompanyViewModel>(parameters = { parametersOf(navController, companyId) })
+                    viewModel.getCurrentCompany()
+                    showCompanyEditButton = false
+                    EditCompanyScreen(
                         viewModel = viewModel,
                     )
                 }
