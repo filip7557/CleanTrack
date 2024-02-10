@@ -20,7 +20,7 @@ class CompanyInfoViewModel(
     private val userRepository: UserRepository,
     private val companyRepository: CompanyRepository,
     private val navController: NavController,
-    private val companyId: String,
+    val companyId: String,
 ) : ViewModel() {
 
     var company by mutableStateOf(Company())
@@ -83,9 +83,12 @@ class CompanyInfoViewModel(
         }
     }
 
-    private fun getLocations() {
+    fun getLocations() {
         viewModelScope.launch {
+            if(!loading)
+                loading = true
             locations = companyRepository.getLocationsFromCompanyId(companyId)
+            loading = false
         }
     }
 

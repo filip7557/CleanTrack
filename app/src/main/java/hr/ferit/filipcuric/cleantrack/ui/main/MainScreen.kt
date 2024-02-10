@@ -35,7 +35,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import hr.ferit.filipcuric.cleantrack.R
+import hr.ferit.filipcuric.cleantrack.navigation.ADD_LOCATION_KEY_COMPANY_ID
 import hr.ferit.filipcuric.cleantrack.navigation.ADD_WORKER_COMPANY_KEY_ID
+import hr.ferit.filipcuric.cleantrack.navigation.AddLocationDestination
 import hr.ferit.filipcuric.cleantrack.navigation.AddWorkerDestination
 import hr.ferit.filipcuric.cleantrack.navigation.COMPANY_KEY_ID
 import hr.ferit.filipcuric.cleantrack.navigation.CompanyInfoDestination
@@ -45,6 +47,8 @@ import hr.ferit.filipcuric.cleantrack.navigation.HOME_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.LOGIN_ROUTE
 import hr.ferit.filipcuric.cleantrack.navigation.NavigationItem
 import hr.ferit.filipcuric.cleantrack.navigation.REGISTER_ROUTE
+import hr.ferit.filipcuric.cleantrack.ui.addlocation.AddLocationScreen
+import hr.ferit.filipcuric.cleantrack.ui.addlocation.AddLocationViewModel
 import hr.ferit.filipcuric.cleantrack.ui.addworker.AddWorkerScreen
 import hr.ferit.filipcuric.cleantrack.ui.addworker.AddWorkerViewModel
 import hr.ferit.filipcuric.cleantrack.ui.companyinfo.CompanyInfoScreen
@@ -94,6 +98,7 @@ fun MainScreen() {
 
     var currentCompanyId = ""
     var addedWorker = false
+    var addedLocation = false
 
 
     Scaffold(
@@ -178,15 +183,21 @@ fun MainScreen() {
                         viewModel.getWorkers()
                         addedWorker = false
                     }
+                    if(addedLocation) {
+                        viewModel.getLocations()
+                        addedLocation = false
+                    }
                     showCompanyEditButton = viewModel.isManager
                     CompanyInfoScreen(
                         viewModel = viewModel,
                         onDeleteCompanyClick = {
                             homeViewModel.getCompanies()
                         },
-                        onLocationClick = { /*TODO*/ }) {
-
-                    }
+                        onLocationClick = { /*TODO*/ },
+                        onAddLocationClick = { companyId ->
+                            navController.navigate(AddLocationDestination.createNavigation(companyId))
+                        }
+                        )
                 }
                 composable(
                     route = AddWorkerDestination.route,
@@ -210,6 +221,21 @@ fun MainScreen() {
                     showCompanyEditButton = false
                     EditCompanyScreen(
                         viewModel = viewModel,
+                    )
+                }
+                composable(
+                    route = AddLocationDestination.route,
+                    arguments = listOf(navArgument(ADD_LOCATION_KEY_COMPANY_ID) { type = NavType.StringType })
+                ) {
+                    val companyId = it.arguments?.getString(ADD_LOCATION_KEY_COMPANY_ID)
+                    val viewModel = koinViewModel<AddLocationViewModel>(parameters = { parametersOf(companyId) })
+                    showCompanyEditButton = false
+                    AddLocationScreen(
+                        viewModel = viewModel,
+                        onAddLocationClick = {
+                            addedLocation = true
+                            navController.popBackStack()
+                        }
                     )
                 }
             }

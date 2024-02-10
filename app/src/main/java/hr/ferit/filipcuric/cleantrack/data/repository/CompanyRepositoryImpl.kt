@@ -87,6 +87,10 @@ class CompanyRepositoryImpl: CompanyRepository {
         db.collection("companies").document(companyId).set(company).await()
     }
 
+    override suspend fun createLocation(location: Location) {
+        db.collection("locations").add(location).await()
+    }
+
     override suspend fun deleteCompanyById(id: String?) {
         db.collection("companies").document(id!!).delete().await()
     }

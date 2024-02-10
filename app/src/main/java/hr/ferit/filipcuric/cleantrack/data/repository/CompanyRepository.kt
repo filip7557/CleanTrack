@@ -14,4 +14,5 @@ interface CompanyRepository {
     suspend fun getLocationsFromCompanyId(companyId: String): List<Location>
     suspend fun getWorkersFromCompanyId(companyId: String): List<User>
     suspend fun editCompanyById(companyId: String, company: Company)
+    suspend fun createLocation(location: Location)
 }

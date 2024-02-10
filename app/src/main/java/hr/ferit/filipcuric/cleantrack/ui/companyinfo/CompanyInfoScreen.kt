@@ -45,7 +45,7 @@ fun CompanyInfoScreen(
     viewModel: CompanyInfoViewModel,
     onDeleteCompanyClick: () -> Unit,
     onLocationClick: () -> Unit,
-    onAddLocationClick: () -> Unit,
+    onAddLocationClick: (String) -> Unit,
 ) {
     if (viewModel.loading) {
         LoadingAnimation()
@@ -245,7 +245,9 @@ fun CompanyInfoScreen(
                             .fillMaxWidth()
                     ) {
                         Button(
-                            onClick = onAddLocationClick,
+                            onClick = {
+                                onAddLocationClick(viewModel.companyId)
+                            },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Green,
                             )

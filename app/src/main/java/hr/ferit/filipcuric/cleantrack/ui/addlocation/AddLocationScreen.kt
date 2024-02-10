@@ -5,21 +5,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 
 @Composable
 fun AddLocationScreen(
+    viewModel: AddLocationViewModel,
     onAddLocationClick: () -> Unit,
 ) {
     Column(
@@ -30,14 +33,18 @@ fun AddLocationScreen(
         Text(
             text = "Add a location",
             fontSize = 18.sp,
+            color = MaterialTheme.colorScheme.tertiary,
             modifier = Modifier
                 .padding(vertical=12.dp)
         )
         TextField(
-            value = "",
+            value = viewModel.name,
             label = {
                 Text(text = "Name")
             },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text
+            ),
             singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Green,
@@ -47,13 +54,16 @@ fun AddLocationScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = { viewModel.onNameChange(it) }
         )
         TextField(
-            value = "",
+            value = viewModel.address,
             label = {
                 Text(text = "Address")
             },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text
+            ),
             singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Green,
@@ -63,13 +73,16 @@ fun AddLocationScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = { viewModel.onAddressChange(it) }
         )
         TextField(
-            value = "",
+            value = viewModel.frequency,
             label = {
                 Text(text = "X times/week")
             },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            ),
             singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Green,
@@ -79,10 +92,13 @@ fun AddLocationScreen(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .fillMaxWidth(),
-            onValueChange = { /*TODO*/ }
+            onValueChange = { viewModel.onFrequencyChange(it) }
         )
         Button(
-            onClick = onAddLocationClick,
+            onClick = {
+                viewModel.addLocation()
+                onAddLocationClick()
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0, 90, 4),
                 contentColor = Color.White
@@ -93,12 +109,4 @@ fun AddLocationScreen(
             Text("Add location")
         }
     }
-}
-
-@Preview
-@Composable
-fun AddLocationScreenPreview() {
-    AddLocationScreen(
-        onAddLocationClick = { /*TODO*/ }
-    )
 }
