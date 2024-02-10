@@ -51,6 +51,7 @@ class RegisterViewModel(
                 initialValue = false
             )
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val emailIsNotEmail: StateFlow<Boolean> =
         snapshotFlow { email }
             .mapLatest { !it.contains("@") }
