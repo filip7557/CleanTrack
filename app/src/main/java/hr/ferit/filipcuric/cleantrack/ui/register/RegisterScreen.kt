@@ -146,7 +146,7 @@ fun RegisterScreen(
             visualTransformation = PasswordVisualTransformation()
         )
         Button(
-            enabled = !userNameHasError && !emailHasError && viewModel.areTextFieldFilled(),
+            enabled = !userNameHasError && !emailHasError && viewModel.areTextFieldsFilled(),
             onClick = {
                 viewModel.registerUser()
                 onRegisterClick()
