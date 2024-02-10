@@ -97,6 +97,6 @@ class RegisterViewModel(
     }
 
     fun areTextFieldsFilled() : Boolean {
-        return username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && firstname.isNotEmpty() && lastname.isNotEmpty() && !emailIsNotEmail.value
+        return username.isNotEmpty() && !userNameHasError.value && email.isNotEmpty() && !emailHasError.value && password.isNotEmpty() && firstname.isNotEmpty() && lastname.isNotEmpty() && !emailIsNotEmail.value
     }
 }
