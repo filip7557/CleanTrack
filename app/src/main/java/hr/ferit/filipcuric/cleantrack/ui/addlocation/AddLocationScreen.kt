@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -25,88 +26,92 @@ fun AddLocationScreen(
     viewModel: AddLocationViewModel,
     onAddLocationClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 20.dp)
-            .fillMaxSize()
+    Surface(
+        color = MaterialTheme.colorScheme.surface
     ) {
-        Text(
-            text = "Add a location",
-            fontSize = 18.sp,
-            color = MaterialTheme.colorScheme.tertiary,
+        Column(
             modifier = Modifier
-                .padding(vertical=12.dp)
-        )
-        TextField(
-            value = viewModel.name,
-            label = {
-                Text(text = "Name")
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text
-            ),
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Green,
-                focusedLabelColor = Green,
-            ),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .padding(bottom = 10.dp)
-                .fillMaxWidth(),
-            onValueChange = { viewModel.onNameChange(it) }
-        )
-        TextField(
-            value = viewModel.address,
-            label = {
-                Text(text = "Address")
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text
-            ),
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Green,
-                focusedLabelColor = Green,
-            ),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .padding(bottom = 10.dp)
-                .fillMaxWidth(),
-            onValueChange = { viewModel.onAddressChange(it) }
-        )
-        TextField(
-            value = viewModel.frequency,
-            label = {
-                Text(text = "X times/week")
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number
-            ),
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Green,
-                focusedLabelColor = Green,
-            ),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .padding(bottom = 10.dp)
-                .fillMaxWidth(),
-            onValueChange = { viewModel.onFrequencyChange(it) }
-        )
-        Button(
-            onClick = {
-                viewModel.addLocation()
-                onAddLocationClick()
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0, 90, 4),
-                contentColor = Color.White
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+                .fillMaxSize()
         ) {
-            Text("Add location")
+            Text(
+                text = "Add a location",
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier
+                    .padding(vertical = 12.dp)
+            )
+            TextField(
+                value = viewModel.name,
+                label = {
+                    Text(text = "Name")
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text
+                ),
+                singleLine = true,
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Green,
+                    focusedLabelColor = Green,
+                ),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .fillMaxWidth(),
+                onValueChange = { viewModel.onNameChange(it) }
+            )
+            TextField(
+                value = viewModel.address,
+                label = {
+                    Text(text = "Address")
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text
+                ),
+                singleLine = true,
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Green,
+                    focusedLabelColor = Green,
+                ),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .fillMaxWidth(),
+                onValueChange = { viewModel.onAddressChange(it) }
+            )
+            TextField(
+                value = viewModel.frequency,
+                label = {
+                    Text(text = "X times/week")
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
+                singleLine = true,
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Green,
+                    focusedLabelColor = Green,
+                ),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .fillMaxWidth(),
+                onValueChange = { viewModel.onFrequencyChange(it) }
+            )
+            Button(
+                onClick = {
+                    viewModel.addLocation()
+                    onAddLocationClick()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0, 90, 4),
+                    contentColor = Color.White
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text("Add location")
+            }
         }
     }
 }

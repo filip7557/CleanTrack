@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -28,86 +29,90 @@ fun LoginScreen(
     onLoginClick: () -> Unit,
     onRegisterClick: () -> Unit,
 ) {
-    if(viewModel.loading) {
-        LoadingAnimation()
-    } else {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .fillMaxSize()
-        ) {
-            TextField(
-                value = viewModel.username,
-                label = {
-                    Text(text = "Username")
-                },
-                singleLine = true,
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Green,
-                    focusedLabelColor = Green,
-                ),
-                shape = RoundedCornerShape(8.dp),
+    Surface(
+        color = MaterialTheme.colorScheme.surface
+    ) {
+        if (viewModel.loading) {
+            LoadingAnimation()
+        } else {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    .padding(bottom = 10.dp)
-                    .fillMaxWidth(),
-                onValueChange = { viewModel.onUsernameValueChange(it) }
-            )
-            TextField(
-                value = viewModel.password,
-                label = {
-                    Text(text = "Password")
-                },
-                singleLine = true,
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Green,
-                    focusedLabelColor = Green,
-                ),
-                shape = RoundedCornerShape(8.dp),
-                modifier = Modifier
-                    .padding(bottom = 10.dp)
-                    .fillMaxWidth(),
-                onValueChange = { viewModel.onPasswordValueChange(it) },
-                visualTransformation = PasswordVisualTransformation()
-            )
-            if (viewModel.loginHasError)
-                Text(
-                    text = "Wrong username or password.",
-                    fontSize = 18.sp,
-                    color = Color.Red
+                    .padding(horizontal = 20.dp)
+                    .fillMaxSize()
+            ) {
+                TextField(
+                    value = viewModel.username,
+                    label = {
+                        Text(text = "Username")
+                    },
+                    singleLine = true,
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Green,
+                        focusedLabelColor = Green,
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier
+                        .padding(bottom = 10.dp)
+                        .fillMaxWidth(),
+                    onValueChange = { viewModel.onUsernameValueChange(it) }
                 )
-            Button(
-                onClick = {
-                    viewModel.loginUser()
-                    onLoginClick()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0, 90, 4),
-                    contentColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text("Login")
-            }
-            Text(
-                text = "Don't have an account?",
-                fontSize = 22.sp,
-                color = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier
-                    .padding(top = 50.dp)
-            )
-            Button(
-                onClick = onRegisterClick,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0, 90, 4),
-                    contentColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text("Register")
+                TextField(
+                    value = viewModel.password,
+                    label = {
+                        Text(text = "Password")
+                    },
+                    singleLine = true,
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Green,
+                        focusedLabelColor = Green,
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier
+                        .padding(bottom = 10.dp)
+                        .fillMaxWidth(),
+                    onValueChange = { viewModel.onPasswordValueChange(it) },
+                    visualTransformation = PasswordVisualTransformation()
+                )
+                if (viewModel.loginHasError)
+                    Text(
+                        text = "Wrong username or password.",
+                        fontSize = 18.sp,
+                        color = Color.Red
+                    )
+                Button(
+                    onClick = {
+                        viewModel.loginUser()
+                        onLoginClick()
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0, 90, 4),
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text("Login")
+                }
+                Text(
+                    text = "Don't have an account?",
+                    fontSize = 22.sp,
+                    color = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier
+                        .padding(top = 50.dp)
+                )
+                Button(
+                    onClick = onRegisterClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0, 90, 4),
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text("Register")
+                }
             }
         }
     }
