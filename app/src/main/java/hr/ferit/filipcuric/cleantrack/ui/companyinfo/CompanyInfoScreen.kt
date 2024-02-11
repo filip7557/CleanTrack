@@ -45,7 +45,7 @@ import hr.ferit.filipcuric.cleantrack.ui.theme.Green
 fun CompanyInfoScreen(
     viewModel: CompanyInfoViewModel,
     onDeleteCompanyClick: () -> Unit,
-    onLocationClick: () -> Unit,
+    onLocationClick: (String) -> Unit,
     onAddLocationClick: (String) -> Unit,
 ) {
     Surface(
@@ -209,7 +209,7 @@ fun CompanyInfoScreen(
                                 locationCardViewState = LocationCardViewState(
                                     location = viewModel.locations.first(),
                                 ),
-                                onClick = onLocationClick,
+                                onClick = { onLocationClick(viewModel.locations.first().id) },
                                 modifier = Modifier
                                     .height(120.dp)
                                     .width(200.dp)
@@ -231,7 +231,7 @@ fun CompanyInfoScreen(
                                     locationCardViewState = LocationCardViewState(
                                         location = it,
                                     ),
-                                    onClick = onLocationClick,
+                                    onClick = { onLocationClick(it.id) },
                                     modifier = Modifier
                                         .height(120.dp)
                                         .width(200.dp)

@@ -91,6 +91,20 @@ class CompanyRepositoryImpl: CompanyRepository {
         db.collection("locations").add(location).await()
     }
 
+    override suspend fun getLocationFromId(locationId: String): Location {
+        val location = db.collection("locations").document(locationId).get().await().toObject(Location::class.java)!!
+        location.id = locationId
+        return location
+    }
+
+    override suspend fun updateLocation(location: Location) {
+        db.collection("locations").document(location.id).set(location).await()
+    }
+
+    override suspend fun deleteLocation(location: Location) {
+        db.collection("locations").document(location.id).delete().await()
+    }
+
     override suspend fun deleteCompanyById(id: String?) {
         db.collection("companies").document(id!!).delete().await()
     }

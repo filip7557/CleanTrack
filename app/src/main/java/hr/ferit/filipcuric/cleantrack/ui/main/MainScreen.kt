@@ -44,7 +44,10 @@ import hr.ferit.filipcuric.cleantrack.navigation.CompanyInfoDestination
 import hr.ferit.filipcuric.cleantrack.navigation.EDIT_COMPANY_KEY_ID
 import hr.ferit.filipcuric.cleantrack.navigation.EditCompanyDestination
 import hr.ferit.filipcuric.cleantrack.navigation.HOME_ROUTE
+import hr.ferit.filipcuric.cleantrack.navigation.LOCATION_IS_MANAGER
+import hr.ferit.filipcuric.cleantrack.navigation.LOCATION_KEY_ID
 import hr.ferit.filipcuric.cleantrack.navigation.LOGIN_ROUTE
+import hr.ferit.filipcuric.cleantrack.navigation.LocationDestination
 import hr.ferit.filipcuric.cleantrack.navigation.NavigationItem
 import hr.ferit.filipcuric.cleantrack.navigation.REGISTER_ROUTE
 import hr.ferit.filipcuric.cleantrack.ui.addlocation.AddLocationScreen
@@ -59,6 +62,8 @@ import hr.ferit.filipcuric.cleantrack.ui.editcompany.EditCompanyScreen
 import hr.ferit.filipcuric.cleantrack.ui.editcompany.EditCompanyViewModel
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeScreen
 import hr.ferit.filipcuric.cleantrack.ui.home.HomeViewModel
+import hr.ferit.filipcuric.cleantrack.ui.location.LocationScreen
+import hr.ferit.filipcuric.cleantrack.ui.location.LocationViewModel
 import hr.ferit.filipcuric.cleantrack.ui.login.LoginScreen
 import hr.ferit.filipcuric.cleantrack.ui.login.LoginViewModel
 import hr.ferit.filipcuric.cleantrack.ui.register.RegisterScreen
@@ -193,11 +198,13 @@ fun MainScreen() {
                         onDeleteCompanyClick = {
                             homeViewModel.getCompanies()
                         },
-                        onLocationClick = { /*TODO*/ },
-                        onAddLocationClick = { companyId ->
-                            navController.navigate(AddLocationDestination.createNavigation(companyId))
+                        onLocationClick = { locationId ->
+                            navController.navigate(LocationDestination.createNavigation(locationId, viewModel.isManager))
+                                          },
+                        onAddLocationClick = { currentCompanyId: String ->
+                            navController.navigate(AddLocationDestination.createNavigation(currentCompanyId))
                         }
-                        )
+                    )
                 }
                 composable(
                     route = AddWorkerDestination.route,
@@ -235,6 +242,26 @@ fun MainScreen() {
                         onAddLocationClick = {
                             addedLocation = true
                             navController.popBackStack()
+                        }
+                    )
+                }
+                composable(
+                    route = LocationDestination.route,
+                    arguments = listOf(
+                        navArgument(LOCATION_KEY_ID) { type = NavType.StringType },
+                        navArgument(LOCATION_IS_MANAGER) { type = NavType.BoolType },
+                    )
+                ) {
+                    val locationId = it.arguments?.getString(LOCATION_KEY_ID)
+                    val isUserManager = it.arguments?.getBoolean(LOCATION_IS_MANAGER)
+                    val viewModel = koinViewModel<LocationViewModel>(parameters = { parametersOf(locationId, isUserManager) })
+                    showCompanyEditButton = false
+                    LocationScreen(
+                        viewModel = viewModel,
+                        onDeleteLocationClick = {
+                            navController.navigate(CompanyInfoDestination.createNavigation(currentCompanyId)) {
+                                popUpTo(HOME_ROUTE)
+                            }
                         }
                     )
                 }

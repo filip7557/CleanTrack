@@ -9,6 +9,7 @@ import hr.ferit.filipcuric.cleantrack.ui.companyinfo.di.companyInfoModule
 import hr.ferit.filipcuric.cleantrack.ui.createcompany.di.createCompanyModule
 import hr.ferit.filipcuric.cleantrack.ui.editcompany.di.editCompanyModule
 import hr.ferit.filipcuric.cleantrack.ui.home.di.homeModule
+import hr.ferit.filipcuric.cleantrack.ui.location.di.locationModule
 import hr.ferit.filipcuric.cleantrack.ui.login.di.loginModule
 import hr.ferit.filipcuric.cleantrack.ui.main.di.mainModule
 import hr.ferit.filipcuric.cleantrack.ui.register.di.registerModule
@@ -32,6 +33,7 @@ class CleanTrack : Application() {
                 addWorkerModule,
                 editCompanyModule,
                 addLocationModule,
+                locationModule,
             )
         }
     }

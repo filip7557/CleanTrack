@@ -6,4 +6,6 @@ data class Location(
     val name: String = "",
     val address: String = "",
     val frequency: Int = 0,
+    var cleaners: MutableList<User> = mutableListOf(),
+    var jobs: MutableList<String> = mutableListOf(),
 )

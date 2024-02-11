@@ -1,5 +1,7 @@
 package hr.ferit.filipcuric.cleantrack.navigation
 
+import hr.ferit.filipcuric.cleantrack.CleanTrack
+
 const val LOGIN_ROUTE = "Login"
 const val REGISTER_ROUTE = "Register"
 const val HOME_ROUTE = "Home"
@@ -20,6 +22,11 @@ const val ADD_LOCATION_ROUTE_WITH_PARAMS = "$ADD_LOCATION_ROUTE/{$ADD_LOCATION_K
 const val ADD_WORKER_ROUTE = "AddWorker"
 const val ADD_WORKER_COMPANY_KEY_ID = "companyId"
 const val ADD_WORKER_ROUTE_WITH_PARAMS = "$ADD_WORKER_ROUTE/{$ADD_WORKER_COMPANY_KEY_ID}"
+
+const val LOCATION_ROUTE = "Location"
+const val LOCATION_KEY_ID = "locationId"
+const val LOCATION_IS_MANAGER = "isUserManager"
+const val LOCATION_ROUTE_WITH_PARAMS = "$LOCATION_ROUTE/{$LOCATION_KEY_ID}&{$LOCATION_IS_MANAGER}"
 
 sealed class CleanTrackDestination(
     open val route: String
@@ -60,4 +67,8 @@ data object AddLocationDestination : CleanTrackDestination(ADD_LOCATION_ROUTE_WI
 
 data object AddWorkerDestination : CleanTrackDestination(ADD_WORKER_ROUTE_WITH_PARAMS) {
     fun createNavigation(companyId: String): String = "$ADD_WORKER_ROUTE/${companyId}"
+}
+
+data object LocationDestination : CleanTrackDestination(LOCATION_ROUTE_WITH_PARAMS) {
+    fun createNavigation(locationId: String, isUserManager: Boolean): String = "$LOCATION_ROUTE/${locationId}&${isUserManager}"
 }
