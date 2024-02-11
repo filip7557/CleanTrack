@@ -43,7 +43,8 @@ fun CompanyCard(
         ),
         shape = CardDefaults.elevatedShape,
         modifier = modifier
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .fillMaxWidth(),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -56,9 +57,9 @@ fun CompanyCard(
                 contentScale = ContentScale.Crop,
             )
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.Start,
                 modifier = Modifier
-                    .padding(top = 10.dp, bottom=10.dp)
+                    .padding(top = 10.dp, bottom=10.dp, start=10.dp)
                     .fillMaxWidth()
             ) {
                 Text(
