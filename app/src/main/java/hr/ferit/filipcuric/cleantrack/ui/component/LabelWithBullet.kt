@@ -21,6 +21,7 @@ fun LabelWithBullet(
         Icon(
             painter = painterResource(id = R.drawable.bullet),
             contentDescription = "bullet icon",
+            tint = MaterialTheme.colorScheme.tertiary
         )
         Text(
             text = text,

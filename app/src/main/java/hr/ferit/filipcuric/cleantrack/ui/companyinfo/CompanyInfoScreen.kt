@@ -212,7 +212,7 @@ fun CompanyInfoScreen(
                                 onClick = { onLocationClick(viewModel.locations.first().id) },
                                 modifier = Modifier
                                     .height(120.dp)
-                                    .width(200.dp)
+                                    .width(250.dp)
                                     .padding(vertical = 12.dp)
                             )
                         }
@@ -234,7 +234,7 @@ fun CompanyInfoScreen(
                                     onClick = { onLocationClick(it.id) },
                                     modifier = Modifier
                                         .height(120.dp)
-                                        .width(200.dp)
+                                        .width(250.dp)
                                         .padding(horizontal = 4.dp)
                                 )
                             }

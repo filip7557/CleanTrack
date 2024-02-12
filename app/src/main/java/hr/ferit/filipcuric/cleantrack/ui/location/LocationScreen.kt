@@ -55,14 +55,16 @@ fun LocationScreen(
                 Text(
                     text = viewModel.location.name,
                     fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.tertiary
                 )
                 Text(
                     text = viewModel.location.address,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
                     modifier = Modifier
-                        .padding(bottom = 25.dp)
+                        .padding(bottom = 25.dp),
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
             item {
@@ -71,20 +73,23 @@ fun LocationScreen(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
                     modifier = Modifier
-                        .padding(bottom = 25.dp)
+                        .padding(bottom = 25.dp),
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
             item {
                 Text(
                     text = "Cleaners:",
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
             if (viewModel.cleaners.isEmpty()) {
                 item {
                     Text(
                         text = "There are no cleaners on this location yet.",
-                        fontSize = 18.sp
+                        fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.tertiary
                     )
                 }
             }
@@ -159,14 +164,16 @@ fun LocationScreen(
                     text = "Jobs:",
                     fontSize = 20.sp,
                     modifier = Modifier
-                        .padding(top = 25.dp)
+                        .padding(top = 25.dp),
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
             if (viewModel.jobs.isEmpty()) {
                 item {
                     Text(
                         text = "There are no jobs on this location yet.",
-                        fontSize = 18.sp
+                        fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.tertiary
                     )
                 }
             }

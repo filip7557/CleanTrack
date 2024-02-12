@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,7 +40,7 @@ fun CompanyCard(
             defaultElevation = 8.dp,
         ),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
         ),
         shape = CardDefaults.elevatedShape,
         modifier = modifier
@@ -67,12 +68,14 @@ fun CompanyCard(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 Text(
                     text = companyCardViewState.position,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Light,
                     textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }

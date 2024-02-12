@@ -20,18 +20,20 @@ private val DarkColorScheme = darkColorScheme(
     primary = Color(0, 90, 4),
     secondary = Color.Black,
     tertiary = Color.White,
+    onPrimary = Color.Black,
     background = Color(0, 39, 2, 255),
     //surface = Color(20, 20, 20, 255),
     surface = Color(28, 27, 30, 255),
     onSurface = Color.White,
-    primaryContainer = Color(148, 143, 153, 255),
+    primaryContainer = Color(112, 110, 114, 255),
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Color(0, 90, 4),
     secondary = Color.White,
     tertiary = Color.Black,
-    surface = Color(226, 226, 226, 255),
+    onPrimary = Color.Black,
+    surface = Color(248, 248, 248, 255),
     background = Color(189, 189, 189, 255),
     onSurface = Color.White,
     primaryContainer = Color.White,

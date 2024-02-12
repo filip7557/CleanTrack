@@ -39,7 +39,7 @@ fun LocationCard(
         ),
         modifier = modifier
             .clickable(onClick = onClick)
-            .defaultMinSize(minHeight = 100.dp, minWidth = 200.dp),
+            .defaultMinSize(minHeight = 100.dp, minWidth = 300.dp),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

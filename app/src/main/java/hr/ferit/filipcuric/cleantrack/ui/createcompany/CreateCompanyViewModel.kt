@@ -11,7 +11,6 @@ import androidx.navigation.NavController
 import hr.ferit.filipcuric.cleantrack.data.repository.CompanyRepository
 import hr.ferit.filipcuric.cleantrack.data.repository.UserRepository
 import hr.ferit.filipcuric.cleantrack.model.Company
-import hr.ferit.filipcuric.cleantrack.navigation.HOME_ROUTE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -44,13 +43,14 @@ class CreateCompanyViewModel(
                 viewModelScope.launch {
                     loading = true
                     companyRepository.uploadCompanyLogo(imageUri!!)
-                    navController.navigate(HOME_ROUTE) {
+                    /*navController.navigate(HOME_ROUTE) {
                         popUpTo(HOME_ROUTE) {
                             inclusive = true
-                        }
+                        }*/
+                    navController.popBackStack()
                         imageUri = Uri.EMPTY
                         name = ""
-                    }
+                    //}
                     loading = false
                 }
             }
